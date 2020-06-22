@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+ 			
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="text-uppercase mb-0">{{class}}</h6>
+					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right;"><i class="fas fa-plus"></i></span> Student</button>
+                  </div>
+                  <div class="card-body">
+                  	<div style="overflow-x:auto;">
+                    <table class="table table-hover card-text" >
+                      <thead>
+                        <tr>
+                          <th>Roll</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      	{% for stud in section %}
+                        <tr>
+                          <th scope="row">{{stud.roll}}</th>
+                          <td>{{stud.name}}</td>
+                          <td>{{stud.email}}</td>
+                          <td><a href="{% url 'app1:stud_edit' my_id=stud.id %}">Edit</a></td>
+                          <td><a href="{% url 'app1:stud_delete' my_id=stud.id %}">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+                  </div>
+                </div>
+
+              </div></div></section></div>
+              
+	  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title">Add Student</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <form method="POST">
+
+        <div class="modal-body">
+
+		     
+				{% csrf_token %}
+				{{ form.as_p }}
+				
+			
+
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success" type="submit" value="Add Student">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </form>
+
+      </div>
+      
+    </div>
+  </div>
+
+</div> 
+
+
+
+{% endblock %}

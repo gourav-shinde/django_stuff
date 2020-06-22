@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+ 			
+                <div class="card">         
+                  <div class="card-header">
+                    <h2 class="h6 mb-0 text-uppercase">Attendance</h2>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-gray mb-5">Attendance Manager.</p>
+                    {% for lect in lecture %}
+                    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                      <div class="left d-flex align-items-center">
+                        <!-- <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-dropbox"></i></div> -->
+                        <div class="text">
+                          <h6 class="mb-0 d-flex align-items-center"> <span>{{lect}}</span><span class="dot dot-sm ml-2 bg-blue"></span></h6><small class="text-gray">Beta</small>
+                        </div>
+                      </div>
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 text-violet">
+                        <table style="border:0px;">
+						<tr>
+							
+							<td><a href="{% url 'app1:add_attendance' my_id=lect.id %}">Add Attendance</a></td>
+							<td><a href="{% url 'app1:attendance_detail' my_id=lect.id %}">view</a></td>
+							<td><a href="{% url 'attendance_manager:viewer' my_id=lect.id %}">Manager</a></td>
+							
+						</tr>
+						</table>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+          </div>
+      </section>
+  </div>
+</div>
+
+{% endblock %}

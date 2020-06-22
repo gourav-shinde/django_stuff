@@ -1,0 +1,21 @@
+<!Doctype html>
+<head>
+	<title>users registered</title>
+	{% if request.user.is_authenticated %}
+	<p>Hello,{{request.user.username}}| <a href="{% url 'custom_user:account' %}">Profile</a> |<a href="{% url 'custom_user:logout' %}">logout</a></p>
+	{% else %}
+	<p><a href="{% url 'custom_user:register' %}">Register</a>|<a href="{% url 'custom_user:login' %}">login</a></p>
+	{% endif %}
+</head>
+
+<body>
+	<h3>Registred users</h3>
+	{% for account in obj %}
+	<p>{{account.username}}</p>
+	{% endfor %}
+<ul>
+	<li><a href="/app1">app1</a></li>
+	{% if user.is_authenticated %}{% else %}<li><a href="/account">custom_user</a></li>{% endif%}
+</ul>
+
+</body>

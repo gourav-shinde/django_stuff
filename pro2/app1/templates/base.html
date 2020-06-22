@@ -1,0 +1,157 @@
+<!Doctype html>
+<!DOCTYPE html>
+<html>
+
+<head> 
+	<title>BASE</title>
+	{% load static %}
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/master.css' %}">
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>	
+<script src="https://kit.fontawesome.com/7d0c3ddac3.js" crossorigin="anonymous"></script> -->
+</head>
+
+
+<!-- new navbar -->
+ <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{% static 'bubbly/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/orionicons.css' %}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'bubbly/img/favicon.png?3' %}">
+    <!-- gijgo datepicker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'gijgo/css/gijgo.min.css' %}">
+    
+<body>
+
+{% include 'navbar.html' %}
+
+	
+{% if request.user.is_authenticated %}
+
+    
+    	
+ <div class="d-flex align-items-stretch">
+			<div id="sidebar"class="sidebar py-3">
+				
+				<div class=" text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5" >MAIN</div>
+
+				<ul class="sidebar-menu list-unstyled">
+					{% if request.user.is_teacher %}
+	              <li class="sidebar-list-item"><a href="{% url 'app1:section' %}" class="sidebar-link text-muted"><i class="o-home-1 mr-3 text-gray"></i><span>Classes</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'app1:lectures' %}" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lecture</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'app1:student' %}" class="sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Students</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'app1:attendance' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Attendee</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
+	              {% elif request.user.is_student %}
+	              <li class="sidebar-list-item"><a href="{% url 'app1:studprof' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Home</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
+	              {% else %}
+	              <li class="sidebar-list-item"><a href="#" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>You are not verified</span></a></li>
+	              {% endif %}
+	        	</ul>
+
+	        	<div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">EXTRA</div>
+	        	<ul class="sidebar-menu list-unstyled">
+
+		          <li class="sidebar-list-item"><a href="{% url 'custom_user:logout' %}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a></li>
+	        	</ul>
+	       
+				
+			</div>
+		
+			{% if request.user.is_teacher %}
+			{% else %}
+			{% if request.user.is_student %}
+			{% else %}
+			<div class="page-holder w-100 d-flex flex-wrap">
+			        <div class="container-fluid px-xl-5">
+			          <section class="py-5">
+			            <div class="row">
+			              <div class="col-lg-12 mb-4">
+			      
+			                <div class="card">         
+			                  <div class="card-header">
+			                    <h2 class="h6 mb-0 text-uppercase">Not Verified Teacher</h2>
+			                  </div>
+			                  <div class="card-body">
+			                     <p class="text-gray mb-5">Your account is Not Verified as Teacher by Admin.</p>
+			                  </div>
+			                </div>
+			              </div>
+			          </div>
+			      </section>
+			  </div>
+			</div>
+			{% endif %}
+			{% endif %}
+
+	
+
+
+    	
+    	
+    		{% block content %}
+			<!-- inserted here -->
+			{% endblock %}
+			
+		
+    		    	
+ </div> 
+  
+  {% else %}
+  			{% block contenty %}
+			<!-- inserted here -->
+			<div class="jumbotron dumb" style="background-color: #0388fc;height: 400px; padding: 0px; border-radius: 0px;">
+				<img src="{% static 'app1/images/home-wave.svg' %}" style="width: 100%;position: absolute;bottom:0px;">
+				<!-- buttons -->
+				<div class="container" style="top: 150px;left: 200px; position: absolute;">
+					<a class="btn btn-success" style="border-radius: 0px;border:0px;" href="{% url 'custom_user:login' %}">Teacher Login</a>
+					<a class="btn btn-success" style="border-radius: 0px;border:0px;" href="{% url 'custom_user:studlogin' %}">Student Login</a>
+				</div>
+
+			</div>
+
+			{% endblock %}	
+ {% endif %}
+
+
+   <!-- JavaScript files-->
+    <script src="{% static 'bubbly/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bubbly/vendor/popper.js/umd/popper.min.js' %}"> </script>
+    <script src="{% static 'bubbly/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bubbly/vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
+    <script src="{% static 'bubbly/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{% static 'bubbly/js/charts-home.js' %}"></script>
+    <script src="{% static 'bubbly/js/front.js' %}"></script>
+
+	<script type="text/javascript" src="{% static 'app1/js/bootstrap.js' %}"></script>
+	<script type="text/javascript" src="{% static 'gijgo/js/gijgo.min.js' %}"></script>
+	
+	<script type="text/javascript">
+        $('#id_date').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+         $('#id_fro').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+          $('#id_to').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+	</script>
+	
+</body>
+
+
+</html>
