@@ -14,7 +14,7 @@
     <!-- Main css -->
     <link rel="stylesheet" href="{% static 'register/css/style.css' %}">
 </head>
-<body >
+<body>
     <style type="text/css">
         .formy{
             font-size: 1rem;
@@ -22,9 +22,14 @@
             background-color: #fff;
             color: #000;
         }
+         @media only screen and (max-width: 700px) {
+          /* For mobile phones: */
+          .nunny{
+            display: none;
+          }
     </style>
 
-    <div class="main" style="background-image: url('{% static 'register/images/back.jpg' %}');padding: 75px 0;">
+    <div class="main" style="padding: 75px 0;height: 100vh;background-image: url({% static 'register/images/back.jpg' %});">
 
  
 
@@ -71,7 +76,7 @@
                             
                         </form>
                     </div>
-                    <div class="signup-image">
+                    <div class="signup-image nunny">
                         <figure><img src="{% static 'register/images/signup-image.jpg' %}   " alt="sing up image"></figure>
                         <a href="{% url 'custom_user:studlogin' %}" class="signup-image-link">I am already member</a>
                     </div>

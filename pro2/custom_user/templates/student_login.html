@@ -14,16 +14,25 @@
     <!-- Main css -->
     <link rel="stylesheet" href="{% static 'register/css/style.css' %}">
 </head>
-<body >
+<body background="{% static 'register/images/back.jpg' %}">
     <style type="text/css">
         .formy{
             font-size: 1rem;
             line-height: 1.5;
             background-color: #fff;
             color: #000;
+        }
+        
+        @media only screen and (max-width: 700px) {
+          /* For mobile phones: */
+          .nunny{
+            display: none;
+          }
+          
+    
     </style>
 
-    <div class="main" style="background-image: url('{% static 'register/images/back.jpg' %}');padding: 75px 0;">
+    <div class="main" style="background-image: url('{% static 'register/images/back.jpg' %}');padding: 75px 0;height: 100vh;">
 
  
 
@@ -31,7 +40,7 @@
       <section class="sign-in">
             <div class="container">
                 <div class="signin-content">
-                    <div class="signin-image">
+                    <div class="signin-image nunny">
                         <figure><img src="{% static 'register/images/signin-image.jpg' %}" alt="sing up image"></figure>
                         <a href="{% url 'custom_user:newregister' %}" class="signup-image-link">Create an account</a>
                     </div>
