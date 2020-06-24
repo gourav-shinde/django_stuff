@@ -3,7 +3,7 @@
 <html>
 
 <head> 
-	<title>BASE</title>
+	<title>ARSENEL</title>
 	{% load static %}
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -29,6 +29,22 @@
     <link rel="shortcut icon" href="{% static 'bubbly/img/favicon.png?3' %}">
     <!-- gijgo datepicker -->
     <link rel="stylesheet" type="text/css" href="{% static 'gijgo/css/gijgo.min.css' %}">
+
+    <!-- homepage -->
+     <link rel="stylesheet" href="{% static 'homepage/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Custom Font Icons CSS-->
+    <link rel="stylesheet" href="{% static 'homepage/css/landy-iconfont.css' %}">
+    <!-- owl carousel-->
+    <link rel="stylesheet" href="{% static 'homepage/vendor/owl.carousel/assets/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'homepage/vendor/owl.carousel/assets/owl.theme.default.css' %}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'homepage/css/style.defaulthome.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'homepage/css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="favicon.png">
+    <meta name="robots" content="all,follow">
+    <!-- homepageend -->
 
 </head>    
 <body>
@@ -142,15 +158,130 @@
   {% else %}
   			{% block contenty %}
 			<!-- inserted here -->
-			<div class="jumbotron dumb" style="background-color: #0388fc;height: 400px; padding: 0px; border-radius: 0px;">
-				<img src="{% static 'app1/images/home-wave.svg' %}" style="width: 100%;position: absolute;bottom:0px;">
-				<!-- buttons -->
-				<div class="container" style="top: 150px;left: 200px; position: absolute;">
-					<a class="btn btn-success" style="border-radius: 0px;border:0px;" href="{% url 'custom_user:login' %}">Teacher Login</a>
-					<a class="btn btn-success" style="border-radius: 0px;border:0px;" href="{% url 'custom_user:studlogin' %}">Student Login</a>
-				</div>
+			   <section id="hero" class="hero hero-home bg-gray">
+			      <div class="container">
+			        <div class="row d-flex">
+			          <div class="col-lg-6 text order-2 order-lg-1">
+			            <h1>Arsenel</h1>
+			            <p class="hero-text">This is currently under development and has long way to go.</p>
+			            <div class="CTA"><a style="padding: 0.6rem 3rem;" href="{% url 'custom_user:studlogin' %}" class="btn btn-primary btn-shadow btn-gradient link-scroll">Sign In</a><a href="{% url 'custom_user:newregister' %}" class="btn btn-outline-primary"style="padding: 0.6rem 3rem;">Sign Up Now</a><a href="{% url 'custom_user:register' %}" class="btn btn-outline-primary"style="padding: 0.6rem 3rem;">Beta signin</a></div>
+			          </div>
+			          <div class="col-lg-6 order-1 order-lg-2"><img src="{% static 'homepage/img/Macbook.png' %}" alt="..." class="img-fluid"></div>
+			        </div>
+			      </div>
+			    </section>
+			    <section id="browser" class="browser">
+			      <div class="container">
+			        <div class="row d-flex justify-content-center"> 
+			          <div class="col-lg-8 text-center">
+			            <h2 class="h3 mb-5">How it works</h2>           
+			          </div>
+			        </div>
+			        <div id="myTab" role="tablist" class="nav nav-tabs">
+			          <div class="row">
+			            <div class="col-md-4"><a id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-expanded="true" class="nav-item nav-link active"> <span class="number">1</span>Create your class and add students throud excel file.....and your done</a></div>
+			            <div class="col-md-4"><a id="nav-second-tab" data-toggle="tab" href="#nav-second" role="tab" aria-controls="nav-second" class="nav-item nav-link"> <span class="number">2</span>To use Post functionality the students must register with registered emails,which where used by teacher when adding students</a></div>
+			            <div class="col-md-4"><a id="nav-third-tab" data-toggle="tab" href="#nav-third" role="tab" aria-controls="nav-third" class="nav-item nav-link"> <span class="number">3</span>More Features coming(some are currently kept for developing purposed.e.g registering without email verification,and all classes showing up in add lecture list(This function is for organisations))</a></div>
+			          </div>
+			        </div>
+			      </div>
+			    </section>
+			    <section id="about-us" class="about-us bg-gray">
+			      <div class="container">
+			        <h2>About Me</h2>
+			        <div class="row">
+			          <p class="lead col-lg-10">This webapplication is made using Django framework and has postgresql database.
+			          I am a Student and am currently developing this website.some of the features are currently pending.Stay Tuned </p>
+			        </div>
+			      </div>
+			    </section>
 
-			</div>
+			    <section id="extra-features" class="extra-features bg-primary">
+			      <div class="container text-center">
+			        <header>
+			          <h2>Great features             </h2>
+			          <div class="row">
+			            <p class="lead col-lg-8 mx-auto">Some noteworthy Features of Arsenel.</p>
+			          </div>
+			        </header>
+			        <div class="grid row">
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-diploma"></i></div>
+			            <h3 class="h5">Take Attendance</h3>
+			            <p>Take attendance of your registered students</p>
+			          </div>
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-folder-1"></i></div>
+			            <h3 class="h5">Send Email to defaulters</h3>
+			            <p>Send email to your class students if they are lagging behind.</p>
+			          </div>
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-gears"></i></div>
+			            <h3 class="h5">Interactive Noticeboard</h3>
+			            <p>A dedicated Section for Classes</p>
+			          </div>
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-management"></i></div>
+			            <h3 class="h5">Posts dedicated to classes</h3>
+			            <p>Post are dedicated to classes and Teachers have control over posts</p>
+			          </div>
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-pie-chart"></i></div>
+			            <h3 class="h5">Simple and interactive UI</h3>
+			            <p>Specifically designed for Smartphones..of couse you carry them everywhere</p>
+			          </div>
+			          <div class="item col-lg-4 col-md-6">
+			            <div class="icon"> <i class="icon-quality"></i></div>
+			            <h3 class="h5">Take tests(BETA)</h3>
+			            <p>Take tests and manage their results effectively.</p>
+			          </div>
+			        </div>
+			      </div>
+			    </section>
+
+
+			    <div id="scrollTop">
+			      <div class="d-flex align-items-center justify-content-end"><i class="fa fa-long-arrow-up"></i>To Top</div>
+			    </div>
+			    <footer class="main-footer">
+			      <div class="container">
+			        <div class="row">
+			          <div class="col-lg-3 col-md-6"><a href="#" class="brand">Gaurav Shinde</a>
+			            <ul class="contact-info list-unstyled">
+			              <li><a href="mailto:sales@landy.com">gauravsanjayshinde@gmail.com</a></li>
+			            </ul>
+			            <ul class="social-icons list-inline">
+			              <li class="list-inline-item"><a href="#" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+			              <li class="list-inline-item"><a href="#" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+			              <li class="list-inline-item"><a href="#" target="_blank" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+			              <li class="list-inline-item"><a href="#" target="_blank" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
+			            </ul>
+			          </div>
+			          <div class="col-lg-3 col-md-6" style="margin-top: 20px;">
+			            <strong style="font-size: 150;">Frontend Assitance</strong>
+			            <a href="#">Avaneesh Yadav</a>
+			   
+			          </div>
+						          
+			        </div>
+			      </div>
+			      <div class="copyrights">
+			        <div class="container">
+			          <div class="row">
+			            <div class="col-md-7">
+			              <p>                      </p>
+			            </div>
+			            <div class="col-md-5 text-right">
+			              <p>Template By <a href="https://bootstrapious.com/" class="external">Bootstrapious</a>  </p>
+			              <!-- Please do not remove the backlink to Bootstrapious unless you support us at http://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :) -->
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+			    </footer>
+			 
+			    
+			   
 
 			{% endblock %}	
  {% endif %}
@@ -168,6 +299,8 @@
 
 	<script type="text/javascript" src="{% static 'app1/js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'gijgo/js/gijgo.min.js' %}"></script>
+	<script src="{% static 'homepage/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'homepage/js/front.js' %}"></script>
 	
 	<script type="text/javascript">
         $('#id_date').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
@@ -195,7 +328,6 @@
 			    });
 
 	</script>
-
 
 	
 </body>

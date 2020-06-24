@@ -1,7 +1,7 @@
 
 <!-- navbar-->
 
-      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow sticky-top" style="height: 60px;"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a href="{% url 'root' %}" class="navbar-brand font-weight-bold text-uppercase text-base">NAVBAR</a>
+      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow sticky-top" style="height: 60px;"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a href="{% url 'root' %}" class="navbar-brand font-weight-bold text-uppercase text-base">ARSENEL</a>
         <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
           <li class="nav-item">
             
@@ -25,10 +25,10 @@
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'custom_user:register' %}">Register</a>
+            <a class="nav-link" href="{% url 'custom_user:newregister' %}">Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'custom_user:login' %}">login</a>
+            <a class="nav-link" href="{% url 'custom_user:studlogin' %}">login</a>
           </li>
           {% endif %}
         </ul>

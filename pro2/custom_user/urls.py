@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path,include
 from custom_user.views import (registeration_view,logout_view,login_view,account_view
-,student_loginview)
+,student_loginview,newregister)
 app_name="custom_user"
 urlpatterns = [
 	path('',registeration_view,name="register"),
+	path('register',newregister,name="newregister"),
 
 	path('logout',logout_view,name="logout"),
 

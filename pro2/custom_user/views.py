@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from custom_user.forms import Register_Form,AccountAuthForm,AccountUpdateForm
+from custom_user.forms import Register_Form,AccountAuthForm,AccountUpdateForm,Registernew_Form
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from .models import User
@@ -22,6 +22,28 @@ def registeration_view(request):
 		form=Register_Form()
 		context["registeration_form"]=form
 	return render(request,'register.html',context)	
+
+def newregister(request):
+	context={}
+	if request.POST:
+		form=Registernew_Form(request.POST)
+		if form.is_valid():
+			form.save()
+			email=form.cleaned_data.get('email')
+			raw_password=form.cleaned_data.get('password1')
+			account=authenticate(email=email,password=raw_password)
+			login(request,account)
+			return redirect('root')
+		else:
+			error="Email already registered/password validation"
+			context={'registeration_form':form,'error':error}
+	else:
+		
+		form=Registernew_Form()
+		context["registeration_form"]=form
+		context["error"]=""
+	return render(request,'registernew.html',context)
+
 
 
 def logout_view(request):
@@ -60,6 +82,7 @@ def login_view(request):  #login
 
 
 def student_loginview(request):
+	error=""
 	user=request.user
 	print(request.POST)
 	if request.POST:
@@ -77,9 +100,9 @@ def student_loginview(request):
 			else:
 				return redirect("root")
 		else:
-			messages.error(request,"Invalid User.")
+			error="Invalid Credentials"
 	
-	context={}
+	context={'error':error}
 	return render(request,'student_login.html',context)
 
 

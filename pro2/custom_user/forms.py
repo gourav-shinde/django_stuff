@@ -7,23 +7,57 @@ from custom_user.models import User
 class Register_Form(UserCreationForm):
 	email=forms.EmailField(max_length=50,widget=forms.TextInput(
 		attrs={
-			'class':"form-control",
+			'class':"form-control"
 		}
 		))
 	username=forms.CharField(widget=forms.TextInput(
 		attrs={
-			'class':"form-control",
+			'class':"form-control"
 		}
 		))
 	password1=forms.CharField(label="Password",widget=forms.PasswordInput(
 		attrs={
-			'class':"form-control",
+			'class':"form-control"
 		}
 		))
 
 	password2=forms.CharField(label="Password-confirmation",widget=forms.PasswordInput(
 		attrs={
-			'class':"form-control",
+			'class':"form-control"
+		}
+		))
+
+	class Meta:
+		model=User
+		fields=("username","email","password1","password2","is_student","is_teacher")
+
+
+class Registernew_Form(UserCreationForm):
+	email=forms.EmailField(max_length=50,widget=forms.TextInput(
+		attrs={
+			'class':"formy",'placeholder':'Email'
+		}
+		))
+	username=forms.CharField(widget=forms.TextInput(
+		attrs={
+			'class':"formy",'placeholder':'Username'
+		}
+		))
+	password1=forms.CharField(label="Password",widget=forms.PasswordInput(
+		attrs={
+			'class':"formy",'placeholder':'Password'
+		}
+		))
+
+	password2=forms.CharField(label="Password-confirmation",widget=forms.PasswordInput(
+		attrs={
+			'class':"formy",'placeholder':'Repeat Your Password'
+		}
+		))
+
+	is_student=forms.BooleanField(required=False,widget=forms.CheckboxInput(
+		attrs={
+			'class':"agree-term",'id':'agree-term','name':'agree-term'
 		}
 		))
 	class Meta:

@@ -357,7 +357,6 @@ def delete_attendance(request,my_id):
 #students views
 
 
-
 def profile_view(request):
 	instance=request.user
 	stud_in_attend=Students.objects.get(email=instance.email)
@@ -393,3 +392,4 @@ def profile_view(request):
 
 	context={"obj":stud_in_attend,"lecture":percentages,"instance":instance}
 	return render(request,"studentprofile.html",context)
+
