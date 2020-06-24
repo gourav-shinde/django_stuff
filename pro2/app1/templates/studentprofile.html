@@ -1,6 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style type="text/css">
+      .progress2{
+      
+      margin: 4px;
+      float:left;
+      text-align: center;
+      align-items: center;
+      
+    }
+        .barOverflow{ /* Wraps the rotating .bar */
+      
+      width: 180px; height: 90px; /* Half circle (overflow) */
+      margin-bottom: -14px; /* bring the numbers up */
+      overflow: hidden;
+    }
+        .bar{
+      
+      top: 0; left: 0;
+      width: 180px; height: 180px; /* full circle! */
+      border-radius: 50%;
+      box-sizing: border-box;
+      border: 10px solid #ccc;     /* half gray, */
+      border-bottom-color: #4287f5;  /* half azure */
+      border-right-color: #4287f5;
+    }
+    @media only screen and (max-width: 700px) {
+      /* For mobile phones: */
+      .mheight{
+        min-height: 82px;
+
+      }
+   
+    }
+  
+</style>
+
 <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
           <section class="py-5">
@@ -12,19 +48,37 @@
                     <h2 class="h6 mb-0 text-uppercase"> Name:{{obj.name}}</h2>
                   </div>
                   <div class="card-body">
-                    {% for lect in lecture %}
-                      {{lect.lect}}<br>
-                    <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" role="progressbar"
-                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{lect.per}}%">
-                    {{lect.per}}
-                  </div>
-                </div> 
-                  {% endfor %}
-                  {{instance}}
+                  Class: {{obj.section}}
+                  <br>
+                  Roll: {{obj.roll}}
+                  <br>
+                  Email: {{instance}}
+                    
                   </div>
                 </div>
               </div>
+              
+              {% for lect in lecture %}
+
+              <div class="col-lg-4 mb-4 col-sm-6 ">
+                
+                <div class="card" style="min-height: 252px">         
+                  <div class="card-header mheight">
+                    <h2 class="h6 mb-0 text-uppercase"> {{lect.lect}}</h2>
+                  </div>
+                  <div class="card-body container-fluid">
+                    <div class="progress2">
+                    <div class="barOverflow">
+                      <div class="bar"></div>
+                    </div>
+                    <span>{{lect.per}}</span>%
+                  </div>
+                  </div>
+                </div> 
+              </div>
+               {% endfor %}
+             
+            
           </div>
       </section>
   </div>

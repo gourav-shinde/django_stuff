@@ -10,6 +10,12 @@ from datetime import date
 # Create your views here.
 
 def home_view(request,*args,**kwargs):     #landing page
+	if not request.user.is_anonymous:
+		if request.user.is_teacher:
+			return redirect("app1:lectures")
+		elif request.user.is_student:
+			return redirect("app1:studprof")
+
 	return render(request,"base.html",{})
 
 def base_view(request,*args,**kwargs):
@@ -361,6 +367,7 @@ def profile_view(request):
 	for lect in lectures_attending:
 		obj=Attendance.objects.filter(lecture=Lecture.objects.get(id=lect.id))
 		count=0
+		divider=1
 		for day in obj:
 			list_of_present=day.students_present.all()
 			#print("######")
@@ -371,7 +378,11 @@ def profile_view(request):
 					flag=0
 					count=count+1
 					break
-		percentages[lect_num]={"lect":lect,"per":round(((count/obj.count())*100),2)}
+		if not obj.count()==0:
+			divider=obj.count()
+
+		per=round(((count/divider)*100),2)
+		percentages[lect_num]={"lect":lect,"per":per}
 		lect_num=lect_num+1
 
 	#print(percentages)

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from app1.models import Students,Lecture
 from .models import Post
 from .forms import PostForm,TeachPost
+from app1.models import Section_class
 from itertools import chain
 # Create your views here.
 def Post_view(request):      #for students temp
@@ -35,6 +36,7 @@ def Post_view(request):      #for students temp
 				return redirect("/posts")
 		else:
 			form=TeachPost()
+			form.fields['section'].queryset = Section_class.objects.filter(lecture__user=request.user).distinct()
 
 		context={'posts':post_query,'form':form}
 		return render(request,"myposts.html",context)
@@ -44,7 +46,10 @@ def Post_view(request):      #for students temp
 		print(query1.section)
 		section_list=query1.section
 		section_id=Students.objects.get(email=request.user.email)
-		post_query=Post.objects.filter(section__id=section_id.id).order_by('date_posted')
+		post_query=Post.objects.filter(section=query1.section).order_by('date_posted')
+		print("########################")
+		print(Post.objects.all())
+		print(post_query)
 		post_query=post_query.reverse()
 		
 
@@ -92,6 +97,7 @@ def myPost_view(request):      #for students temp
 				return redirect("/posts/myPosts")
 		else:
 			form=TeachPost()
+			form.fields['section'].queryset = Section_class.objects.filter(lecture__user=request.user).distinct()
 
 		context={'posts':post_query,'form':form}
 		return render(request,"myposts.html",context)
@@ -101,7 +107,7 @@ def myPost_view(request):      #for students temp
 		print(query1.section)
 		section_list=query1.section
 		section_id=Students.objects.get(email=request.user.email)
-		post_query=Post.objects.filter(section__id=section_id.id,user=request.user).order_by('date_posted')
+		post_query=Post.objects.filter(section=query1.section,user=request.user).order_by('date_posted')
 		post_query=post_query.reverse()
 		
 

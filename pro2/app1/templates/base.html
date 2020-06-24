@@ -5,20 +5,12 @@
 <head> 
 	<title>BASE</title>
 	{% load static %}
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/master.css' %}">
-	<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>	
-<script src="https://kit.fontawesome.com/7d0c3ddac3.js" crossorigin="anonymous"></script> -->
-</head>
-
-
-<!-- new navbar -->
- <meta name="description" content="">
+	<!-- new navbar -->
+ 	<meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <!-- Bootstrap CSS-->
@@ -37,8 +29,30 @@
     <link rel="shortcut icon" href="{% static 'bubbly/img/favicon.png?3' %}">
     <!-- gijgo datepicker -->
     <link rel="stylesheet" type="text/css" href="{% static 'gijgo/css/gijgo.min.css' %}">
-    
+
+</head>    
 <body>
+	<style type="text/css">
+		@media only screen and (max-width: 700px) {
+		  /* For mobile phones: */
+		  .side25{
+		    position: fixed;
+		    height: 100vh;
+		    z-index: 2;
+		  }
+		  .impona{
+		  	-ms-flex-align: center!important;
+			align-items: center!important;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+
+		  }
+		  .mwidth{
+		  	width:95px;
+		  }
+		}
+	</style>
 
 {% include 'navbar.html' %}
 
@@ -48,30 +62,40 @@
     
     	
  <div class="d-flex align-items-stretch">
-			<div id="sidebar"class="sidebar py-3">
+			<div id="sidebar"class="sidebar py-3 side25">
 				
-				<div class=" text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5" >MAIN</div>
+				 <div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">MAIN</div>
 
-				<ul class="sidebar-menu list-unstyled">
-					{% if request.user.is_teacher %}
-	              <li class="sidebar-list-item"><a href="{% url 'app1:section' %}" class="sidebar-link text-muted"><i class="o-home-1 mr-3 text-gray"></i><span>Classes</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'app1:lectures' %}" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lecture</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'app1:student' %}" class="sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Students</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'app1:attendance' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Attendee</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
-	              {% elif request.user.is_student %}
-	              <li class="sidebar-list-item"><a href="{% url 'app1:studprof' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Home</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
-	              {% else %}
-	              <li class="sidebar-list-item"><a href="#" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>You are not verified</span></a></li>
-	              {% endif %}
-	        	</ul>
+				 {% if request.user.is_teacher %}
+        <ul class="impona sidebar-menu list-unstyled">
 
-	        	<div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">EXTRA</div>
-	        	<ul class="sidebar-menu list-unstyled">
+        		<li class="sidebar-list-item"><a href="{% url 'app1:section' %}" class="mwidth sidebar-link text-muted"><i class="o-home-1 mr-3 text-gray"></i><span>Classes</span></a></li>
+              
+              <li class="sidebar-list-item"><a href="{% url 'app1:lectures' %}" class="mwidth sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lecture</span></a></li>
+              <li class="sidebar-list-item"><a href="{% url 'app1:student' %}" class="mwidth sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Student</span></a></li>
+              <li class="sidebar-list-item"><a href="{% url 'app1:attendance' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Attendee</span></a></li>
+          <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}"  class="mwidth sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Posts</span></a>
+            
+          </li>
+              
+        </ul>
+        {% elif request.user.is_student %}
+         <ul class="impona sidebar-menu list-unstyled">
+         	<li class="sidebar-list-item"><a href="{% url 'app1:studprof' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Home</span></a></li>
+	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
+         </ul>
+        {% else %}
+         <ul class="impona sidebar-menu list-unstyled">
+         	<li class="sidebar-list-item"><a href="#" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>You are not verified</span></a></li>
 
-		          <li class="sidebar-list-item"><a href="{% url 'custom_user:logout' %}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a></li>
-	        	</ul>
+         </ul>
+        {% endif %}
+        <div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">EXTRAS</div>
+        <ul class="impona sidebar-menu list-unstyled">
+        	<li class="sidebar-list-item"><a href="{% url 'custom_user:logout' %}" class="mwidth sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a></li>
+
+        </ul>
+        
 	       
 				
 			</div>
@@ -149,7 +173,30 @@
         $('#id_date').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
          $('#id_fro').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
           $('#id_to').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+
+              $(document).ready(function(){
+			    $(".progress2").each(function(){
+			      var $bar = $(this).find(".bar");
+			      var $val = $(this).find("span");
+			      var perc = parseInt( $val.text(), 10);
+			     
+			      $({p:0}).animate({p:perc}, {
+			        duration: 3000,
+			        easing: "swing",
+			        step: function(p) {
+			          $bar.css({
+			            transform: "rotate("+ (45+(p*1.8)) +"deg)", // 100%=180° so: ° = % * 1.8
+			            // 45 is to add the needed rotation to have the green borders at the bottom
+			          });
+			          $val.text(p|0);
+			        }
+			      });
+			    }); 
+			    });
+
 	</script>
+
+
 	
 </body>
 
