@@ -44,3 +44,4 @@ class TeachPost(forms.ModelForm):
 			model=Post
 			fields=('section','title','description')
 
+

@@ -41,36 +41,30 @@
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST"  >{% csrf_token %}
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                {{registeration_form.username}}
-                                
+                                <label for="id_username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                {{registeration_form.username}}   
                             </div>
+                            <small>{{registeration_form.username.errors}}</small>
                             <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <label for="id_mail"><i class="zmdi zmdi-email"></i></label>
                                 {{registeration_form.email}}
-                               
                             </div>
+                            <small>{{registeration_form.email.errors}}</small>
                             <div class="form-group">
-                                <label for="password1"><i class="zmdi zmdi-lock"></i></label>
+                                <label for="id_password1"><i class="zmdi zmdi-lock"></i></label>
                                 {{registeration_form.password1}}
-                                
                             </div>
+                            <small>{{registeration_form.password1.errors}}</small>
                             <div class="form-group">
-                                <label for="password2"><i class="zmdi zmdi-lock-outline"></i></label>
-                                {{registeration_form.password2}}
-                               
+                                <label for="id_password2"><i class="zmdi zmdi-lock-outline"></i></label>
+                                {{registeration_form.password2}}                
                             </div>
+                            <small>{{registeration_form.password2.errors}}</small>
                             <div class="form-group">
                                 {{registeration_form.is_student}}
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>Student</label>
                             </div>
-                                <small style="color: red;">{{error}}</small>
-                                <small><ul>
-                                    <li>Your password can not contain your username</li>
-                                    <li>Your password must be at least 8 characters in length.</li>
-                                    <li>Your password must contain at least,letters(A-Z,a-z),Numbers (0-9)</li>
-                                </ul>
-                                 </small>
+                                
                             
                                 <input type="submit" class="form-group form-button form-submit" value="Register">
                             

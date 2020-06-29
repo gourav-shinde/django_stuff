@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+@media only screen and (max-width: 700px) {
+      /* For mobile phones: */
+      .side50{
+        position: fixed;
+        height: 100vh;
+        z-index: 2;
+      }
+      .mobview{
+        height: 100vh;
+        margin: 0px;
+      }
+      .texty{
+        font-size: 10px;
+      }
+      .cont{
+        padding: 0px;
+        height: 100vh;
+        width: 100vw;
+      }
+
+
+
+
+    }
+
+
+.mbody{
+  word-wrap: break-word;
+}
+
+body {
+  background-color: #74EBD5;
+  background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  width: 2px;
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 0.5em;
+  background-color: #ddd;
+  outline: 1px solid slategrey;
+  border-radius: 1rem;
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.messages-box,
+.chat-box {
+  height: 510px;
+  overflow-y: scroll;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+input::placeholder {
+  font-size: 0.9rem;
+  color: #999;
+}
+/*hell*/
+
+
+</style>
+
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+
+            <div class="row">
+
+                   
+              <div class="container py-5 px-4 cont" style="margin-top: -50px;padding-top: 0px;">
+                <!-- For demo purpose-->
+               
+
+                <div class="row rounded-lg overflow-hidden shadow">
+                  <!-- Users box-->
+                  <div class="col-3 px-0 sidebarry" style="height: 100%;">
+                    <div class="bg-white">
+
+                      <div class="bg-gray px-4 py-2 bg-light">
+                        <p class="h5 mb-0 py-1 texty">Classes</p>
+                      </div>
+
+                      <div class="messages-box">
+                        <div class="list-group rounded-0">
+                          {% for key in aloo %}
+                          {% ifequal key.id dont %}
+
+                          <a href="{% url 'bloggy:myTeachpostss' my_id=key.id %}" class="list-group-item list-group-item-action active text-white rounded-0">
+                            <div class="media">
+                              <div class="media-body ml-4">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                  <h6 class="mb-0 texty">{{key}}</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                          {% else %}
+                          
+                          <a href="{% url 'bloggy:myTeachpostss' my_id=key.id %}" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                            <div class="media">
+                              <div class="media-body ml-4">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                  <h6 class="mb-0 texty">{{key}}</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                          {% endifequal %}
+                          {% endfor %}
+
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Chat Box-->
+                  <div class="col-9 px-0" style="position: relative;">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"  style="position: absolute;z-index: 3;right: 50px;bottom: 40px;"><i class="fas fa-plus"></i></span> Post
+                       </button> 
+                    <div class="px-4 py-5 chat-box bg-white" style="height: 556px;">
+
+                      
+                      
+                    {% ifequal flag 0 %}
+                      
+                      {% for post in posts %}
+                      {% ifequal post.user request.user %}
+                       <!-- Reciever Message-->
+                      <div class="media w-50 ml-auto mb-3 mbody">
+                        <div class="media-body mbody"  >
+                          <div class=" rounded py-2 px-3 mb-2" style="background-color: #8cba9e">
+                            <h5>{{post.title}}</h5>
+                            <hr>
+                            <p class="text-small mb-0 text-white mbody">{{post.description|urlize}}<br>
+                              <br>
+                              <a href="{% url 'bloggy:editpost' my_id=post.id %}">Edit</a>
+                              <a href="{% url 'bloggy:deletepost' my_id=post.id %}">Delete</a>
+                            </p>
+                          </div>
+                          <p class="small text-muted">{{post.user}}|{{post.date_posted}}</p>
+                        </div>
+                      </div>
+                     
+                      {% else %}
+                       <!-- Sender Message-->
+                      <div class="media w-50 mb-3" ><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                        <div class="media-body ml-3">
+                          <div class="bg-light rounded py-2 px-3 mb-2">
+                            <h5>{{post.title}}</h5>
+                            <hr>
+                            <p class="text-small mb-0 text-muted mbody">{{post.description|urlize}}<br>
+                              <br>
+                              <a href="{% url 'bloggy:deletepost' my_id=post.id %}">Delete</a>
+                            </p>
+                          </div>
+                          <p class="small text-muted">{{post.user}}|{{post.date_posted}}</p>
+                        </div>
+                      </div>
+                     
+                      {% endifequal %}            
+              
+                      {% endfor %}
+
+                      {% else %}
+                      <img src="{% static 'app1/images/hello.jpg' %}" style="height: 100%;width:100%;">
+
+                      {% endifequal %}
+                     
+
+                 
+                      
+
+                  </div>
+
+                </div>
+                
+              </div>
+
+
+              
+            </div>
+             
+              
+          </div>
+      </section>
+  </div>
+</div>
+
+
+
+
+  
+
+
+      <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title">Add Post</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        {% if request.user.is_student %}
+
+        <form method="POST">
+
+        <div class="modal-body">
+
+         
+        {% csrf_token %}
+        <label for="id_title">Title</label>
+        <input id="id_title" class="form-control" type="text" name="Title">
+        
+        <label for="exampleFormControlTextarea4">Description</label>
+        <textarea name="description" id="id_description"class="form-control" rows="3"></textarea>
+        
+
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success"type="submit" value="Post">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </form>
+        {% else %}
+        <form method="POST">
+
+        <div class="modal-body">
+
+         
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+      
+
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success"type="submit" value="POST">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </form>
+        {% endif %}
+       
+
+      </div>
+      
+    </div>
+  </div>
+
+</div> 
+
+
+{% endblock %}

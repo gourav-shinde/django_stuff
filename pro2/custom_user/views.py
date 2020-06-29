@@ -3,6 +3,16 @@ from custom_user.forms import Register_Form,AccountAuthForm,AccountUpdateForm,Re
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from .models import User
+
+#for verification
+from django.urls import reverse
+from django.core.mail import send_mail
+from .utils import account_activation_token
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+
 # Create your views here.
 
 def registeration_view(request):
@@ -28,21 +38,46 @@ def newregister(request):
 	if request.POST:
 		form=Registernew_Form(request.POST)
 		if form.is_valid():
-			form.save()
-			email=form.cleaned_data.get('email')
-			raw_password=form.cleaned_data.get('password1')
-			account=authenticate(email=email,password=raw_password)
-			login(request,account)
-			return redirect('root')
+			user=form.save(commit=False)
+			user.is_active=False
+			user.save()
+			#domain,relative url,token,uid
+			user=user
+			domain=get_current_site(request).domain
+			uidb64=urlsafe_base64_encode(force_bytes(user.id)).decode()
+			token= account_activation_token.make_token(user)
+			link=reverse('custom_user:activate',kwargs={'uidb64':uidb64,'token':token})
+			activate_url="https://"+domain+link
+			
+			subject="Email verification"
+			message="Hi "+str(user.username)+"\n"+str(activate_url)
+			to_list=[user.email]
+			send_mail(subject,message,"gauravshinde696969@gmail",to_list,fail_silently=True)
+			return redirect('custom_user:wait')
 		else:
-			error="Email already registered/password validation"
-			context={'registeration_form':form,'error':error}
+			context={'registeration_form':form}
 	else:
 		
 		form=Registernew_Form()
 		context["registeration_form"]=form
-		context["error"]=""
 	return render(request,'registernew.html',context)
+
+
+def verification(request,uidb64,token):
+
+	id = force_text(urlsafe_base64_decode(uidb64).decode())
+	user = User.objects.get(id=id)
+	if not account_activation_token.check_token(user, token):
+		return redirect('custom_user:login')
+	if user.is_active:
+		return redirect('custom_user:login')
+	user.is_active = True
+	user.save()
+		
+
+	
+
+	return redirect('custom_user:login')
 
 
 
@@ -93,6 +128,8 @@ def student_loginview(request):
 		if user:
 			login(request,user)
 			instance=request.user
+			if not instance.is_active:
+				return redirect("custom_user:wait")
 			if instance.is_student:
 				return redirect("app1:studprof")
 			if instance.is_teacher:
@@ -110,7 +147,7 @@ def student_loginview(request):
 def account_view(request):
 
 	if not request.user.is_authenticated:
-		return redirect("login")
+		return redirect("custom_user:login")
 
 	context={}
 
@@ -126,4 +163,19 @@ def account_view(request):
 			})
 	context['account_form']=form
 	return render(request,"account.html",context)
+
+
+def wait(request):
+	return render(request,"waiting.html",{})
+
+
+def passy(request):
+	error=""
+	if request.POST:
+		passy=request.POST.get('pass')
+		if passy=="3691215":
+			return redirect("custom_user:register")
+		else:
+			error="invalid password"
+	return render(request,"pass.html",{'error':error})
 

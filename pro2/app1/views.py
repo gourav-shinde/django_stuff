@@ -359,30 +359,42 @@ def delete_attendance(request,my_id):
 
 def profile_view(request):
 	instance=request.user
-	stud_in_attend=Students.objects.get(email=instance.email)
-	lectures_attending=Lecture.objects.filter(section_class=stud_in_attend.section)
-	percentages=[0]*lectures_attending.count()
-	lect_num=0
-	for lect in lectures_attending:
-		obj=Attendance.objects.filter(lecture=Lecture.objects.get(id=lect.id))
-		count=0
-		divider=1
-		for day in obj:
-			list_of_present=day.students_present.all()
-			#print("######")
-			#print(list_of_present)
-			for stud in list_of_present:
-				flag=1
-				if stud_in_attend.id==stud.id:
-					flag=0
-					count=count+1
-					break
-		if not obj.count()==0:
-			divider=obj.count()
+	print(Students.objects.filter(email=instance.email).count())
+	if Students.objects.filter(email=instance.email).count()!=0:
+		print("good")
+		flaggy=1
+		stud_in_attend=get_object_or_404(Students,email=instance.email)
+		lectures_attending=Lecture.objects.filter(section_class=stud_in_attend.section)
+		percentages=[0]*lectures_attending.count()
+		lect_num=0
+		for lect in lectures_attending:
+			obj=Attendance.objects.filter(lecture=Lecture.objects.get(id=lect.id))
+			count=0
+			divider=1
+			for day in obj:
+				list_of_present=day.students_present.all()
+				#print("######")
+				#print(list_of_present)
+				for stud in list_of_present:
+					flag=1
+					if stud_in_attend.id==stud.id:
+						flag=0
+						count=count+1
+						break
+			if not obj.count()==0:
+				divider=obj.count()
 
-		per=round(((count/divider)*100),2)
-		percentages[lect_num]={"lect":lect,"per":per}
-		lect_num=lect_num+1
+			per=round(((count/divider)*100),2)
+			percentages[lect_num]={"lect":lect,"per":per}
+			lect_num=lect_num+1
+			print("flag")
+			print(flag)
+	else:
+		print("error")
+		flaggy=0
+		stud_in_attend=""
+		percentages=""
+
 
 	#print(percentages)
 		
@@ -390,6 +402,6 @@ def profile_view(request):
 
 
 
-	context={"obj":stud_in_attend,"lecture":percentages,"instance":instance}
+	context={"obj":stud_in_attend,"lecture":percentages,"instance":instance,'flag':flaggy}
 	return render(request,"studentprofile.html",context)
 

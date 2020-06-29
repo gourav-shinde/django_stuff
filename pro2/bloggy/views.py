@@ -2,10 +2,13 @@ from django.shortcuts import render,redirect,get_object_or_404
 from app1.models import Students,Lecture
 from .models import Post
 from .forms import PostForm,TeachPost
-from app1.models import Section_class
+from app1.models import Section_class,Students
 from itertools import chain
 # Create your views here.
 def Post_view(request):      #for students temp
+	if request.user.is_student:
+		if not Students.objects.filter(email=request.user).count():
+			return redirect("/app1/profile")
 	post_query=[]
 	section_list=[]
 	section_id=[]
@@ -153,3 +156,69 @@ def post_delete(request,my_id):         #delete post
 	"object":obj
 	}
 	return render(request,"deletepost.html",context)
+
+
+
+
+def teacher_post_view(request,my_id=None):  #TAB VIEW
+	post_query=[]
+	section_list=[]
+	section_id=[]
+	drake=[]
+	aloo=[]		
+	sect="Select Class"
+	obj=Lecture.objects.filter(user__id=request.user.id)
+	print(obj)
+	query1=[]
+	for sec in obj:
+		query1.append(sec.section_class)
+	query1=list(dict.fromkeys(query1))
+	print(query1)
+	section_list=query1
+	print(section_list)
+	for sec in section_list:
+		aloo.append(sec)
+	flag=1
+	if my_id:
+		flag=0
+		sect=Section_class.objects.get(id=my_id)
+		post_query=Post.objects.filter(section__id=my_id)
+		post_query=post_query[::-1]
+		print("uno")
+		for post in post_query:
+			print(post)
+
+	if request.POST:
+		if not my_id==None:
+			sec=Section_class.objects.get(id=my_id)
+			form=PostForm(request.POST or None)
+		else:
+			form=TeachPost(request.POST or None)
+		if form.is_valid():
+			instance=form.save(commit=False)
+			if my_id:
+				instance.section=Section_class.objects.get(id=my_id)
+			instance.user=request.user
+			print(instance.user)
+			instance.save()
+			if not my_id==None:
+				ret="/posts/myTeachPosts/"+str(my_id)
+				return redirect(ret)
+			return redirect("/posts/myTeachPosts")
+		print("didnt validate")
+	else:
+		if my_id==None:
+			form=TeachPost()
+			form.fields['section'].queryset = Section_class.objects.filter(lecture__user=request.user).distinct()
+		else:
+			sec=Section_class.objects.get(id=my_id)
+			form=PostForm()
+			
+				
+
+	context={'posts':post_query,'form':form,'aloo':aloo,'dont':my_id,'flag':flag,'sec':sect}
+	return render(request,"teach2.html",context)
+
+		
+
+

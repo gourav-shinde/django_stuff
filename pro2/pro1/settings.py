@@ -9,12 +9,12 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
-EMAIL_USE_TLS=True
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_HOST_USER="gauravshinde696969@gmail.com"
-EMAIL_HOST_PASSWORD="Gokugaurav@98"
-EMAIL_PORT=587
+from . import keys as kite
+EMAIL_USE_TLS=kite.EMAIL_USE_TLS
+EMAIL_HOST=kite.EMAIL_HOST
+EMAIL_HOST_USER=kite.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD=kite.EMAIL_HOST_PASSWORD
+EMAIL_PORT=kite.EMAIL_PORT
 
 import os
 import django_heroku
@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+9g5^zq9clag68$_7vxli2cu@drw*f6(^hoj%^3y-p&wgp7!v^'
+SECRET_KEY = kite.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

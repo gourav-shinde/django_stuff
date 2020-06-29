@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	{% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Arsenel-Chat</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{% static 'bubbly/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/orionicons.css' %}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'bubbly/img/favicon.png?3' %}">
+
+  </head>
+  <body>
+  	<style>
+@media only screen and (max-width: 700px) {
+      /* For mobile phones: */
+      .side50{
+        position: fixed;
+        height: 100vh;
+        z-index: 2;
+      }
+      .sidebar.shrink {
+
+    width: 9rem;
+    text-align: justify;
+
+	}
+     
+      .mobview{
+        height: 100vh;
+        margin: 0px;
+      }
+      .texty{
+        
+      }
+      .cont{
+      	margin-top: -110px
+        padding: 0px;
+        height: 100vh;
+        width: 100vw;
+      }
+      .paddy{
+      	padding: 0px;
+      }
+      .minstyle{
+      	height: 50px;
+      	
+      	min-width: 100%
+      }
+
+
+
+
+    }
+
+
+.mbody{
+  word-wrap: break-word;
+}
+
+body {
+  background-color: #74EBD5;
+  background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  width: 2px;
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 0.5em;
+  background-color: #ddd;
+  outline: 1px solid slategrey;
+  border-radius: 1rem;
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.messages-box,
+.chat-box {
+  height: 510px;
+  overflow-y: scroll;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+input::placeholder {
+  font-size: 0.9rem;
+  color: #999;
+}
+/*hell*/
+
+
+</style>
+
+  	<style type="text/css">
+		@media only screen and (max-width: 700px) {
+			.dm{
+				min-height: 90vh;
+			}
+		  /* For mobile phones: */
+		  .side25{
+		    position: fixed;
+		    height: 100vh;
+		    z-index: 2;
+		  }
+		  .impona{
+		  	-ms-flex-align: center!important;
+			align-items: center!important;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+
+		  }
+		  .mwidth{
+		  	width:100%;
+		  }
+		  .wee{
+		  	
+		  }
+		}
+	</style>
+
+    <!-- navbar-->
+    <header class="header" style="position: fixed;min-width: 100vw; z-index: 7;">
+      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow" style="height: 60px;"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a href="{% url 'root' %}" class="navbar-brand font-weight-bold text-uppercase text-base">ARSENEL</a>
+        <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
+          <li class="nav-item">
+            
+          </li>
+         {% if request.user.is_authenticated %}
+         
+          <li class="nav-item dropdown ml-auto">
+            <a id="userInfo" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="text-gray-500 dropdown-toggle text-uppercase  font-weight-bold small">Hello,{{request.user.username}}</a>
+            <div aria-labelledby="userInfo" class="dropdown-menu"><a href="#" class="dropdown-item"><strong class="d-block text-uppercase headings-font-family">{{request.user.username}}</strong>
+              <small>
+                {% if request.user.is_student %}Student
+                {% else %}
+                {% if request.user.is_teacher %}Teacher
+                {% else %}Teacher(Not verified)
+                {% endif %}
+                {% endif %}
+            </small></a>
+              <div class="dropdown-divider"></div><a href="{% url 'custom_user:account' %}" class="dropdown-item">Edit</a><a href="#" class="dropdown-item">Activity log       </a>
+              <div class="dropdown-divider"></div><a href="{% url 'custom_user:logout' %}" class="dropdown-item">Logout</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'custom_user:newregister' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'custom_user:studlogin' %}">login</a>
+          </li>
+          {% endif %}
+        </ul>
+        
+      </nav>
+    </header>
+
+    <div class="d-flex align-items-stretch">
+      <div id="sidebar" class="sidebar py-3 side25" >
+
+      	<ul class="impona sidebar-menu list-unstyled mbody" style="padding-top: 60px;">
+        		<li class="sidebar-list-item"><a href="{% url 'app1:lectures' %}" class="mwidth sidebar-link text-muted"><span>Go back</span></a></li>
+        </ul>
+
+        <div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family"style="color: #4287f5">CLASS</div>
+        
+        <ul class="impona sidebar-menu list-unstyled mbody">
+        	{% for key in aloo %}
+        	
+        	<li class="sidebar-list-item"><a href="{% url 'bloggy:myTeachpostss' my_id=key.id %}" class="mwidth sidebar-link text-muted"><span>{{key}}</span></a></li>
+
+
+        	
+
+        	 {% endfor %}
+
+        </ul>
+
+        <div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">EXTRA</div>
+
+        <ul class="impona sidebar-menu list-unstyled mbody">
+        	<li class="sidebar-list-item"><a href="{% url 'custom_user:logout' %}" class="mwidth sidebar-link text-muted">
+        	<i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a></li>
+        </ul>
+      </div>
+      
+      <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5" style="padding-top: 40px;">
+          <section class="py-5" >   	 
+            	<div class="row rounded-lg overflow-hidden shadow paddy wee" >
+            	<div class="col-12 px-0 dm" style="position: relative;">
+            		<div class="bg-white dm">
+
+                      <div class="bg-gray px-4 py-2 bg-light minstyle">
+                        <p class="h5 mb-0 py-1 texty">{{sec}}</p>
+                      </div>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"  style="position: absolute;z-index: 3;right: 50px;bottom: 40px;"><i class="fas fa-plus"></i></span> Post
+                       </button> 
+                    <div class="px-4 py-5 chat-box bg-white dm">
+
+
+                      
+                      
+                    {% ifequal flag 0 %}
+                      
+                      {% for post in posts %}
+                      {% ifequal post.user request.user %}
+                       <!-- Reciever Message-->
+                      <div class="media w-50 ml-auto mb-3 mbody">
+                        <div class="media-body mbody"  >
+                          <div class=" rounded py-2 px-3 mb-2" style="background-color: #8cba9e">
+                            <h5>{{post.title}}</h5>
+                            <hr>
+                            <p class="text-small mb-0 text-white mbody">{{post.description|urlize}}<br>
+                              <br>
+                              <a href="{% url 'bloggy:editpost' my_id=post.id %}">Edit</a>
+                              <a href="{% url 'bloggy:deletepost' my_id=post.id %}">Delete</a>
+                            </p>
+                          </div>
+                          <p class="small text-muted mbody">{{post.user}}|{{post.date_posted}}</p>
+                        </div>
+                      </div>
+                     
+                      {% else %}
+                       <!-- Sender Message-->
+                      <div class="media w-50 mb-3" ><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                        <div class="media-body ml-3">
+                          <div class="bg-light rounded py-2 px-3 mb-2">
+                            <h5>{{post.title}}</h5>
+                            <hr>
+                            <p class="text-small mb-0 text-muted mbody">{{post.description|urlize}}<br>
+                              <br>
+                              <a href="{% url 'bloggy:deletepost' my_id=post.id %}">Delete</a>
+                            </p>
+                          </div>
+                          <p class="small text-muted mbody">{{post.user}}|{{post.date_posted}}</p>
+                        </div>
+                      </div>
+                     
+                      {% endifequal %}            
+              
+                      {% endfor %}
+
+                      {% else %}
+                      <img src="{% static 'app1/images/hello.jpg' %}" style="height: 100%;width:100%; object-fit: fill;">
+
+                      {% endifequal %}
+                     
+
+                 
+                      
+
+                  </div>
+
+                </div>
+            </div>
+        
+             
+          </section>
+        </div>
+      </div>
+    </div>
+
+      <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title">Add Post</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        {% if request.user.is_student %}
+
+        <form method="POST">
+
+        <div class="modal-body">
+
+         
+        {% csrf_token %}
+        <label for="id_title">Title</label>
+        <input id="id_title" class="form-control" type="text" name="Title">
+        
+        <label for="exampleFormControlTextarea4">Description</label>
+        <textarea name="description" id="id_description"class="form-control" rows="3"></textarea>
+        
+
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success"type="submit" value="Post">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </form>
+        {% else %}
+        <form method="POST">
+
+        <div class="modal-body">
+
+         
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+      
+
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-success"type="submit" value="POST">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+
+        </form>
+        {% endif %}
+       
+
+      </div>
+      
+    </div>
+  </div>
+
+</div> 
+    <!-- JavaScript files-->
+    <script src="{% static 'bubbly/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bubbly/vendor/popper.js/umd/popper.min.js' %}"> </script>
+    <script src="{% static 'bubbly/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    
+    
+    <script src="{% static 'bubbly/js/front.js' %}"></script>
+  </body>
+</html>
