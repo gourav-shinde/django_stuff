@@ -95,6 +95,9 @@
           <li class="sidebar-list-item"><a href="{% url 'bloggy:myTeachposts' %}"  class="mwidth sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>TeachPosts</span></a>
             
           </li>
+          <li class="sidebar-list-item"><a href="{% url 'quizzes:quizy' %}"  class="mwidth sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Quiz</span></a>
+            
+          </li>
               
         </ul>
         {% elif request.user.is_student %}
@@ -181,7 +184,7 @@
 			        </div>
 			        <div id="myTab" role="tablist" class="nav nav-tabs">
 			          <div class="row">
-			            <div class="col-md-4"><a id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-expanded="true" class="nav-item nav-link active"> <span class="number">1</span>Create your class and add students through excel file.....and your done(currently organisaions fuctions are implemented hence any class you create will be shared to other teachers to create lectures)</a></div>
+			            <div class="col-md-4"><a id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-expanded="true" class="nav-item nav-link active"> <span class="number">1</span>Create your class and add students through excel file.....and your done(currently organisations fuctions are implemented hence any class you create will be shared to other teachers to create lectures)</a></div>
 			            <div class="col-md-4"><a id="nav-second-tab" data-toggle="tab" href="#nav-second" role="tab" aria-controls="nav-second" class="nav-item nav-link"> <span class="number">2</span>To use Post functionality the students must register with registered emails,which where used by teacher when adding students(avoid using classees which you do not create)private classes(for individual will be released soon)</a></div>
 			            <div class="col-md-4"><a id="nav-third-tab" data-toggle="tab" href="#nav-third" role="tab" aria-controls="nav-third" class="nav-item nav-link"> <span class="number">3</span>More Features coming(some are currently kept for developing purposed.e.g registering without email verification,and all classes showing up in add lecture list(This function is for organisations))</a></div>
 			          </div>

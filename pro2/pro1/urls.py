@@ -25,4 +25,5 @@ urlpatterns = [
     path('account/', include('custom_user.urls'),name="custom_user"),
     path('attendance_manage/', include('attendance_manager.urls'),name="attendance_manager"),
     path('posts/', include('bloggy.urls'),name="bloggy"),
+    path('quiz/', include('quizzes.urls'),name="quizzes"),
 ]

@@ -40,6 +40,8 @@ def newregister(request):
 		if form.is_valid():
 			user=form.save(commit=False)
 			user.is_active=False
+			if user.is_student==False:
+				user.is_teacher=True
 			user.save()
 			#domain,relative url,token,uid
 			user=user
@@ -50,7 +52,7 @@ def newregister(request):
 			activate_url="https://"+domain+link
 			
 			subject="Email verification"
-			message="Hi "+str(user.username)+"\n"+str(activate_url)
+			message="Hi "+str(user.username)+"\n"+str(activate_url)+"\nIgnore(if not used arsenalG)"
 			to_list=[user.email]
 			send_mail(subject,message,"gauravshinde696969@gmail",to_list,fail_silently=True)
 			return redirect('custom_user:wait')

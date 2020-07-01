@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+
+</style>
+
+<script>
+  $(document).ready(function() {
+    var max_fields      = 5; //maximum input boxes allowed
+    var wrapper         = $(".grouppy"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+   
+    var x = 1; //initlal text box count
+  
+  
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+          x++; 
+  
+         //text box increment
+            $(wrapper).append('<div id="item" style="display:flex; vertical-align: middle;"><div class="col-3" ><label class="label2">option</label><input type="text" class="form-control" name="option"></div><div class="col-3"><label class="label2">image</label><input type="file" class="form-control-file" name="'+x+'"></div><div class="col-3 radio"><label class="label2">correct</label><input type="radio" name="correct" value="'+x+'"></div><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            
+    }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+    e.preventDefault(); 
+    $(this).parent('div').remove(); 
+    x--;
+    })
+});
+  
+</script>
+
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+      
+                <div class="card">
+                  <div class="card-header">
+                    
+                    <h6 class="text-uppercase mb-0">{{num}}</h6>
+                    
+                  </div>
+                  <div class="card-body">
+                    <div style="overflow-x:auto;">
+                      <form class="form-group" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                        <div style="display:flex; ">
+                          <div class="col-12">
+                            <label class="label2">question</label>
+                            <input type="text" class="form-control" name="question">
+                          </div>
+                          
+                        </div>
+                        
+                        <div id="item col-12" style="display:flex; vertical-align: middle">
+                         
+                          <div class="col-4" >
+                            <label class="label2">1</label>
+                            <input type="text" class="form-control" name="option">
+                          </div>
+                          <div class="col-4"> 
+                            <label class="label2">image</label>
+                          <input type="file" class="form-control-file" name="1">
+                          </div>
+                          <div class="col-4 radio"> 
+                            <label class="label2">correct</label>
+                          <input type="radio" name="correct" value="1" required="">
+                          </div>
+   
+                        </div>
+                        <div class="grouppy">
+                          
+                        </div>
+                        
+            
+            <div class="col-lg-12" style="margin-top: 15px;">
+            <button class="add_field_button btn btn-danger">Add More Fields</button>
+            <input type="submit" class="btn btn-success" value="save">
+            <input type="submit" class="btn btn-primary" name="next" value="next">
+
+              
+            </div>
+            
+            </form> 
+                              
+                </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            </section>
+            </div>
+
+    <script type='text/javascript'>
+     
+    </script>
+
+
+
+{% endblock %}
+def question_view(request,my_id,num=0):
+  print(request.POST)
+  if request.POST:
+    quiz=Quiz.objects.get(slug=my_id)
+    que=Question(quiz=quiz,label=request.POST.get('question'),order=num)
+    que.save()
+    print(que)
+    imglist=request.POST.getlist('optimage')
+    
+    
+    
+    
+    optno=request.POST.get('correct')
+    optno=optno[0]
+    options=request.POST.getlist('option')
+    print(options)
+    
+      
+    count=0
+    
+    
+    for op in options:
+      print(op)
+      print(request.FILES.get(str(count)))
+      
+      if count+1==int(optno):
+        ans=Answer(question=que,label=op,img=request.FILES.get(str(count+1)),is_correct=True)
+      else:
+        ans=Answer(question=que,img=request.FILES.get(str(count+1)),label=op)
+        
+      
+      ans.save()
+
+
+      count=count+1
+    if request.POST.get('next'):
+      num=num+1
+      ret="/quiz/question/"+str(my_id)+"/"+str(num)
+      return redirect(ret)
+    else:
+      return redirect("quizzes:quizy")
+
+
+
+  context={'num':num}
+  return render(request,"create_question.html",context)

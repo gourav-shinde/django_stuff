@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+  #autoresizing
+  { 
+    width: 100%;
+        display: block; 
+        overflow: hidden; 
+        resize: none;
+    }
+
+  .texty{
+    border-right: 0;
+    border-left: 0;
+    border-top: 0px;
+    border-radius: 0;
+  }
+
+   textarea{
+      outline:0;border-width:0 0 0px;border-color:black;
+
+    }
+    textarea:focus{
+      outline:0;border-width:0 0 1px;border-color:black;
+
+    }
+    textarea:focus{
+      transition-timing-function: ease-in-out;
+      transition-duration: 0.2s;
+      outline:0;
+      border-width:0 0 3px;
+      border-color:#a19d9d;
+    }
+    .image-upload>input {
+    display: none;
+    }
+
+</style>
+
+<script>
+  function textareaHandle()
+      {
+        textarea = document.querySelectorAll("#autoresizing"); 
+          for(var i=0;i<textarea.length;i++)
+          textarea[i].addEventListener('input', autoResize, false); 
+      
+      }
+      
+        function autoResize() { 
+            this.style.height = 'auto'; 
+            this.style.height = this.scrollHeight + 'px'; 
+        } 
+        $(document).ready(function(e){
+          textareaHandle();
+        });
+
+  $(document).ready(function() {
+    var max_fields      = 5; //maximum input boxes allowed
+    var wrapper         = $(".grouppy"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+   
+    var x = 1; //initlal text box count
+  
+  
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+          x++; 
+  
+         //text box increment
+            $(wrapper).append('<div class="row" style="align-items:center;"><div class="col-6" ><textarea placeholder="Option '+x+'" class="form-control texty" id="autoresizing" style="width: 100%;" name="option"></textarea></div><div class="col-2 image-upload"><label for="'+x+'"><img style="height: 30px;" src="https://img.icons8.com/ios/50/000000/image.png"/></label><input type="file" class="form-control-file" name="'+x+'" id="'+x+'"></div><div class="col-1 radio"><input type="radio" name="correct" value="'+x+'"></div><a href="#"style="align-items:right;" class="remove_field col-2" id="remove_field"><img style="height:20px;" src="https://img.icons8.com/metro/26/000000/trash.png"/></a></div>'); //add input box
+            
+    }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+    e.preventDefault(); 
+    $(this).parent('div').remove(); 
+    x--;
+    })
+});
+
+
+  function addImg(evt)
+{
+  $(evt).parent().find("#imgInp").trigger('click');
+
+
+  // To ge image preview
+    function readURL(input)
+    {
+    if (input.files && input.files[0])
+    {
+      var reader = new FileReader();
+        
+        reader.onload = function(e)
+        {
+          var imgToShow=$(evt).parent().parent().parent().parent().find("#imgShow");
+          $(imgToShow).attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+    var input=$(evt).parent().find("#imgInp");
+  $(input).change(function()
+  {
+    readURL(this);
+  });
+  // To ge image preview is end here.
+
+
+  $(evt).parent().parent().parent().parent().children(".imgSec").css("display","block");
+}
+
+  
+</script>
+
+<div class="page-holder w-100 d-flex flex-wrap">
+  <div class="container-fluid px-xl-5">
+    <section class="py-5">
+      <div class="row">
+        <div class="col-lg-12 mb-4">
+      
+                <div class="card">
+
+                  <div class="card-header">
+                    <h6 class="text-uppercase mb-0">{{num}}</h6>
+                  </div>
+
+                  <div class="card-body">
+                    
+                      <form class="form-group" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                        <div class="row" style="align-items: center;">
+                          <div class="col-10">
+                            <textarea placeholder="Question" class="form-control texty" id="autoresizing" name="question"></textarea>
+                          </div>
+                          <div class="col-2 image-upload">
+                            <label for="qimg"><img style="height: 30px;" src="https://img.icons8.com/ios/50/000000/image.png"/></label>
+                            <input type="file" class="form-control-file" id="qimg" name="qimg">
+                            
+                          </div>
+                        </div>
+                        
+                        <div class="row" style="align-items: center;margin-top: 10px;">
+                         
+                          <div class="col-6" >
+                           <textarea placeholder="Option 1" class="form-control texty" id="autoresizing" style="width: 100%;" name="option"></textarea>
+                          </div>
+
+                          <div class="col-2 image-upload"> 
+                            <label for="1"><img style="height: 30px;" src="https://img.icons8.com/ios/50/000000/image.png"/></label>
+                          <input type="file" class="form-control-file" id="1" name="1">
+                          </div>
+
+                          <div class="col-1 radio"> 
+                          <input type="radio" name="correct" value="1" required="">
+                          </div>
+   
+                        </div>
+
+                        <div class="grouppy">
+                          
+                        </div>
+                        
+                      <div class="row">
+                        <div class="col-lg-12" style="margin-top: 15px;">
+                        <button class="add_field_button btn btn-danger">Add More Fields</button>
+                        <input type="submit" class="btn btn-success" value="save">
+                        <input type="submit" class="btn btn-primary" name="next" value="next">   
+                        </div>
+                      </div>
+            
+            
+                  </form> 
+                              
+                
+                </div>
+            </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+{% endblock %}
