@@ -1,0 +1,36 @@
+{% extends "classes.html" %}
+{% block content2 %}
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+ 			
+                <div class="card">
+                  <div class="card-header">
+                  	{% if title %}
+                  	Delete
+                    <h6 class="text-uppercase mb-0">{{title}}</h6>
+                    {% else %}
+                    <h6 class="text-uppercase mb-0">Delete</h6>
+                    {% endif %}
+                  </div>
+                  <div class="card-body">
+                  	<div style="overflow-x:auto;">
+                  		<form method="POST">{% csrf_token%}
+            <h3>Do you want to delete {{object}} ?</h3>
+            <small>if you delete the quiz the results and all attemped quiz data will be deleted</small>
+
+						<a class="btn btn-success" style="float: right;" href="{% url 'quizzes:quizy' %}">Cancel</a>
+						<input type="submit" class="btn btn-danger" style="float: right; margin-right: 6px;" name="Yes" value="Delete">
+						
+						</form>
+					                    
+                </div>
+                  </div>
+                </div>
+
+              </div></div></section></div>
+
+
+{% endblock %}

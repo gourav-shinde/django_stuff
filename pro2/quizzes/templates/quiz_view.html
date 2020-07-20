@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page-holder w-100 d-flex flex-wrap">
+  <div class="container-fluid px-xl-5">
+    <section class="py-5">
+      <div class="row">
+        <div class="col-lg-12 mb-4">
+          <div class="card">
+                  <div class="card-header">
+                    Lecture: {{quiz.lecture}}<br>
+                    Quiz :{{quiz.name}}<br>
+                    <a href="{% url 'quizzes:question' my_id=quiz.slug num=1 flag=1 %}" class="btn btn-primary" style="float: right; margin-left:5px ;">add question</a>
+                    <a href="{% url 'quizzes:quizy_edit' my_id=quiz.slug %}" class="btn btn-success" style="float: right;">Edit</a>
+                     <a href="{% url 'quizzes:quizy_delete' my_id=quiz.slug %}" class="btn btn-danger" style="float: right; margin-right: 5px;">Delete</a>
+                   
+                  </div>
+                  <div class="card-body">
+                     Description: {{quiz.description}}<br>
+                     Roll out time : {{quiz.roll_out_time}}<br>
+                     End time : {{quiz.stop_time}}
+                    
+                  </div>
+                    
+                </div>
+              </div>
+
+                {% for l in listo %}
+                <div class="col-lg-12 mb-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h5>{{l.q.order}}] {{l.q}}</h5>
+                     {% if l.q.img1 %}
+                     <img src="{{l.q.img1.url}}" style="max-height: 500px;">
+                     {% endif %}
+                     <a href="{% url 'quizzes:question_delete' my_id=quiz.slug num=l.q.id %}" class="btn btn-danger" style="float: right; margin-right: 5px;">Delete</a>
+                  </div>
+                  <div class="card-body">
+                    <ol>
+                       {% for a in l.ans %}
+                       <li>{{a}} {% if a.is_correct %}(correct)
+                        {% endif %}<br>
+                        {% if a.img %}
+                        <img src="{{a.img.url}}" style="max-height: 500px;">
+                        {% endif %}</li>
+                       {% endfor %}
+                     </ol>
+                  </div>
+                  
+                    
+                </div>
+              </div>
+                {% endfor %}
+                 
+      
+            
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+{% endblock %}

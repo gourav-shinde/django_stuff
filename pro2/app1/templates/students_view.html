@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
 <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
           <section class="py-5">
@@ -28,8 +29,8 @@
                           <th scope="row">{{stud.roll}}</th>
                           <td>{{stud.name}}</td>
                           <td>{{stud.email}}</td>
-                          <td><a href="{% url 'app1:stud_edit' my_id=stud.id %}">Edit</a></td>
-                          <td><a href="{% url 'app1:stud_delete' my_id=stud.id %}">Delete</a></td>
+                          <td><a href="{% url 'app1:stud_edit' my_id=stud.id %}" data-toggle="tooltip" title="Edit"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></td>
+                          <td><a href="{% url 'app1:stud_delete' my_id=stud.id %}" data-toggle="tooltip" title="Delete"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a></td>
                         </tr>
                         {% endfor %}
                       </tbody>

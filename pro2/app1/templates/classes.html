@@ -2,7 +2,8 @@
 
 {% block content %}
 
-	{% block content2 %}
+  {% block content2 %}
+  {% load static %}
 
 <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
@@ -19,23 +20,23 @@
                   <div class="card-body">
                     <p class="text-gray mb-5">Place to edit,delete and upload students to your new class.</p>
                     {% for obj in list %}
-                    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
                       <div class="left d-flex align-items-center">
                         <!-- <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-dropbox"></i></div> -->
                         <div class="text">
                           <h6 class="mb-0 d-flex align-items-center"> <span>{{obj}}</span><span class="dot dot-sm ml-2 bg-violet"></span></h6><small class="text-gray">Beta</small>
                         </div>
                       </div>
-                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 text-violet">
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 " style="position: absolute; right: 0px;">
                         <!-- <a href="{% url 'app1:upload' my_id=obj.id %}">Upload</a>
                         <a href="{% url 'app1:section_edit' my_id=obj.id %}">Edit</a>
                         <a href="{% url 'app1:section_delete' my_id=obj.id %}">Delete</a> -->
                         <table style="border:0px;">
 						<tr>
 							
-							<td><a href="{% url 'app1:upload' my_id=obj.id %}">Upload</a></td>
-							<td><a href="{% url 'app1:section_edit' my_id=obj.id %}">Edit</a></td>
-							<td><a href="{% url 'app1:section_delete' my_id=obj.id %}">Delete</a></td>
+							<td><a href="{% url 'app1:upload' my_id=obj.id %}" data-toggle="tooltip" title="Upload students with excel file"><img src="{% static 'icons/upload-document-50.png' %}" style="height:20px;"></a></td>
+							<td><a href="{% url 'app1:section_edit' my_id=obj.id %}" data-toggle="tooltip" title="Edit"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></td>
+							<td><a href="{% url 'app1:section_delete' my_id=obj.id %}" data-toggle="tooltip" title="Delete"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a></td>
 						</tr>
 						</table>
                       </div>

@@ -1,7 +1,7 @@
 
 <!-- navbar-->
-
-      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow sticky-top" style="height: 60px;"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a href="{% url 'root' %}" class="navbar-brand font-weight-bold text-uppercase text-base">ARSENEL</a>
+{% load static %}
+      <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow sticky-top" style="height: 60px;"><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a><a href="{% url 'root' %}" class="navbar-brand font-weight-bold text-uppercase text-base"><img src="{% static 'app1/images/logo.jpg' %}" style="height: 35px;">ARSENEL</a>
         <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
           <li class="nav-item">
             

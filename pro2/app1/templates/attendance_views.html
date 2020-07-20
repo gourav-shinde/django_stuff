@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
 <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
           <section class="py-5">
@@ -14,20 +15,20 @@
                   <div class="card-body">
                     <p class="text-gray mb-5">Attendance Manager.</p>
                     {% for lect in lecture %}
-                    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
+                    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
                       <div class="left d-flex align-items-center">
                         <!-- <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-dropbox"></i></div> -->
                         <div class="text">
                           <h6 class="mb-0 d-flex align-items-center"> <span>{{lect}}</span><span class="dot dot-sm ml-2 bg-blue"></span></h6><small class="text-gray">Beta</small>
                         </div>
                       </div>
-                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 text-violet">
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0" style="position: absolute; right: 0px;">
                         <table style="border:0px;">
 						<tr>
 							
-							<td><a href="{% url 'app1:add_attendance' my_id=lect.id %}">Add Attendance</a></td>
-							<td><a href="{% url 'app1:attendance_detail' my_id=lect.id %}">view</a></td>
-							<td><a href="{% url 'attendance_manager:viewer' my_id=lect.id %}">Manager</a></td>
+							<td><a href="{% url 'app1:add_attendance' my_id=lect.id %}" data-toggle="tooltip" title="Add Attendance"><img src="{% static 'icons/add_a.png' %}" style="height:20px;"></a> </td>
+							<td><a href="{% url 'app1:attendance_detail' my_id=lect.id %}" data-toggle="tooltip" title="View Attendance"><img src="{% static 'icons/eye-24.png' %}" style="height:20px;"></a></td>
+							<td><a href="{% url 'attendance_manager:viewer' my_id=lect.id %}" data-toggle="tooltip" title="Lecture Attendance Manager"><img src="{% static 'icons/manager-80.png' %}" style="height:25px;"></a></td>
 							
 						</tr>
 						</table>

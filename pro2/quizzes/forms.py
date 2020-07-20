@@ -22,7 +22,7 @@ class Quiz_form(forms.ModelForm):
 	))
 	class Meta:
 		model=Quiz
-		fields=('lecture','name','description')
+		fields=('lecture','name','description','roll_out_time','stop_time')
 
 
 class Answer_form(forms.ModelForm):

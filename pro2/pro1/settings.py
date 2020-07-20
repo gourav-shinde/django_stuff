@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app1','custom_user','attendance_manager','bloggy','quizzes',
-    'import_export'
+    'import_export','django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

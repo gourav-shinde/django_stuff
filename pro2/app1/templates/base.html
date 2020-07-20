@@ -2,8 +2,18 @@
 <html>
 
 <head> 
-	<title>ARSENEL</title>
+	<title>ARSENAL</title>
 	{% load static %}
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172723038-1"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-172723038-1');
+		</script>
+
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/bootstrap.css' %}">
@@ -66,6 +76,7 @@
 		  .mwidth{
 		  	width:95px;
 		  }
+		  
 		}
 	</style>
 
@@ -103,7 +114,9 @@
         {% elif request.user.is_student %}
          <ul class="impona sidebar-menu list-unstyled">
          	<li class="sidebar-list-item"><a href="{% url 'app1:studprof' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Home</span></a></li>
-	              <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
+				  <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Posts</span></a></li>
+				  <li class="sidebar-list-item"><a href="{% url 'quizzes:quiz_stud' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span >Quiz</span></a></li>
+				  
          </ul>
         {% else %}
          <ul class="impona sidebar-menu list-unstyled">
@@ -313,7 +326,11 @@
 	<script type="text/javascript">
         $('#id_date').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
          $('#id_fro').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
-          $('#id_to').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+		  $('#id_to').datepicker({ uiLibrary: 'bootstrap4',format: 'yyyy-mm-dd' });
+		  
+  		$('#id_roll_out_time').datetimepicker({ footer: true, modal: true , format: 'yyyy-mm-dd HH:MM '});
+ 		 $('#id_stop_time').datetimepicker({ footer: true, modal: true, format: 'yyyy-mm-dd HH:MM ' });
+
 
               $(document).ready(function(){
 			    $(".progress2").each(function(){
@@ -333,7 +350,11 @@
 			        }
 			      });
 			    }); 
-			    });
+				});
+				
+				$(document).ready(function(){
+				$('[data-toggle="tooltip"]').tooltip();
+				});
 
 	</script>
 	
