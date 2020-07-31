@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    .emailu{
+        background-color: white;
+        color: black;
+        border-right: 0;
+        border-left: 0;
+        border-top: 0px;
+        border-radius: 0;
+        padding: 5px;
+        margin-top: 3px;
+
+    }
+</style>
+
+<div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+ 			
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="text-uppercase mb-0">Teacher Manager</h6>
+                  </div>
+                  <div class="card-body">
+                  	<div style="overflow-x:auto;">
+                  		
+                        <h6>Owner : {{owner}}</h6>
+                        <p>Teachers :</p>
+                        <ul>
+                            {% for x in teachers %}
+                            <li>{{x}}</li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <h5>Adding Teachers</h5>
+                        <form class="form-group" method="POST">
+                            {% csrf_token %}
+
+                            <input type="email" class="emailu" name="email" id="email" placeholder="Email" required>
+                            <div class="grouppy">
+                          
+                            </div>
+                            <div style="padding: 5px;">
+                                <button class="add_field_button btn btn-primary">+</button>
+                                <input type="submit" class="btn btn-success" name="add" value="Add">
+                                <input type="submit" class="btn btn-danger"style="display: none;">
+                            </div>
+                        </form>	
+                        <hr>
+                        <h5>Removing Teachers</h5>
+                        <form class="form-group" method="POST">
+                            {% csrf_token %}
+                            <input type="email" class="emailu" name="email" id="email" placeholder="Email" required>
+                            <input type="submit" class="btn btn-success" style="display: none;">
+                            <input type="submit" class="btn btn-danger" name="remove" value="Remove" >
+                            <br>
+                            <small style="color: red;">Removing a Teacher account from Class will only Remove the permission to create lecture using this class,all exsisting lectures remain!</small>
+                        </form>	
+					                    
+                    </div>
+                    {% if success %}
+                      <div class="alert alert-success" role="alert">
+                        
+                        {% for x in success %}
+                        {{x}}<br>
+                        {% endfor %}
+                        
+                      </div>
+                      {% endif %}
+                      {% if error %}
+                      <div class="alert alert-danger" role="alert">
+                        
+                        {% for x in error %}
+                        {{x}}<br>
+                        {% endfor %}
+                        
+                      </div>
+                      {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+        </section>
+    </div>
+<script>
+    $(document).ready(function() {
+    var max_fields      = 5; //maximum input boxes allowed
+    var wrapper         = $(".grouppy"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+   
+    var x = 1; //initlal text box count
+  
+  
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+          x++; 
+  
+         //text box increment
+            $(wrapper).append('<div><input type="email" placeholder="Email" class="emailu" name="email" id="email"><a href="#"style="align-items:right;" class="remove_field col-2" id="remove_field"><img style="height:20px;" src="https://img.icons8.com/metro/26/000000/trash.png"/></a></div>'); //add input box
+            
+    }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+    e.preventDefault(); 
+    $(this).parent('div').remove(); 
+    x--;
+    })
+});
+</script>
+
+{% endblock %}

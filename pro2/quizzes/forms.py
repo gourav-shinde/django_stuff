@@ -4,6 +4,7 @@ from custom_user.models import User
 from app1.models import Lecture
 
 
+
 class Quiz_form(forms.ModelForm):
 	name=forms.CharField(widget=forms.TextInput(
 	attrs={

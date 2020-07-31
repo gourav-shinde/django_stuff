@@ -44,6 +44,7 @@ class Section_class_form(forms.ModelForm):
 	class Meta:
 		model=Section_class
 		fields=("year","div")
+
 		
 
 

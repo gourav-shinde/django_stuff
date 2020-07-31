@@ -9,6 +9,7 @@
         <div class="container-fluid px-xl-5">
           <section class="py-5">
             <div class="row">
+
               <div class="col-lg-12 mb-4">
  			
                 <div class="card">         
@@ -28,15 +29,12 @@
                         </div>
                       </div>
                       <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 " style="position: absolute; right: 0px;">
-                        <!-- <a href="{% url 'app1:upload' my_id=obj.id %}">Upload</a>
-                        <a href="{% url 'app1:section_edit' my_id=obj.id %}">Edit</a>
-                        <a href="{% url 'app1:section_delete' my_id=obj.id %}">Delete</a> -->
+                       
                         <table style="border:0px;">
 						<tr>
-							
-							<td><a href="{% url 'app1:upload' my_id=obj.id %}" data-toggle="tooltip" title="Upload students with excel file"><img src="{% static 'icons/upload-document-50.png' %}" style="height:20px;"></a></td>
-							<td><a href="{% url 'app1:section_edit' my_id=obj.id %}" data-toggle="tooltip" title="Edit"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></td>
-							<td><a href="{% url 'app1:section_delete' my_id=obj.id %}" data-toggle="tooltip" title="Delete"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a></td>
+              <td><a href="{% url 'app1:stud_view' my_id=obj.id %}" data-toggle="tooltip" title="View Students"><img src="{% static 'icons/eye-24.png' %}" style="height:20px;"></a></td> 
+              <td><a href="{% url 'attendance_manager:class_viewer' my_id=obj.id %}" data-toggle="tooltip" title="Attendance Manager"><img src="{% static 'icons/attendance-24.png' %}" style="height:20px;"></a></td>            
+							<td><a href="{% url 'app1:section_teacher' my_id=obj.id %}" data-toggle="tooltip" title="Add/Remove Teachers"><img src="{% static 'icons/teacher_manager.png' %}" style="height:23px;"></a></td>
 						</tr>
 						</table>
                       </div>

@@ -8,7 +8,7 @@
     <title>Quiz Page</title>
 
     <!-- style.css -->
-    <link rel="stylesheet" href="{% static 'JavaScriptQUiz/dist/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'quiz/css/style.css' %}" />
   </head>
   <body>
     <form action="{% url 'quizzes:quiz_back' my_id=q.slug %}" class="welcome_form" name="welcome_form">
@@ -43,13 +43,13 @@
     </div>
 
     <!-- site.js -->
-    <!-- <script src="{% static 'JavaScriptQUiz/dist/js/site.js' %}"></script> -->
+    <!-- <script src="{% static 'quiz/js/site.js' %}"></script> -->
 
       <!-- user info -->
-      <script src="{% static 'JavaScriptQUiz/dist/js/userInfo.js' %}"></script>
+      <script src="{% static 'quiz/js/userInfo.js' %}"></script>
 
      <!-- timer -->
-     <script src="{% static 'JavaScriptQUiz/dist/js/timer.js' %}"></script>
+     <script src="{% static 'quiz/js/timer.js' %}"></script>
      
      <script>
        let drak=null

@@ -6,14 +6,23 @@ from .models import User
 
 #for verification
 from django.urls import reverse
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from .utils import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+import threading
 
 # Create your views here.
+class EmailThread(threading.Thread):
+
+	def __init__(self,email):
+		self.email=email
+		threading.Thread.__init__(self)
+
+	def run(self):
+		self.email.send(fail_silently=True)
 
 def registeration_view(request):
 	context={}
@@ -54,7 +63,14 @@ def newregister(request):
 			subject="Email verification"
 			message="Hi "+str(user.username)+"\n"+str(activate_url)+"\nIgnore(if not used arsenalG)"
 			to_list=[user.email]
-			send_mail(subject,message,"gauravshinde696969@gmail",to_list,fail_silently=True)
+			email = EmailMessage(
+										subject,
+										message,
+										'gauravshinde696969@gmail.com',
+										to_list
+									)
+			EmailThread(email).start()
+			#send_mail(subject,message,"gauravshinde696969@gmail",to_list,fail_silently=True)
 			return redirect('custom_user:wait')
 		else:
 			context={'registeration_form':form}

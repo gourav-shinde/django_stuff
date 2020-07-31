@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path
 from .views import (student_view,lecture_view,attendance_view,home_view,lecturelist_view,section_view,delete_lect_view,
 	edit_lect_view,stud_upload,student_detail_view,student_delete_view,student_edit_view,add_attendance_view,attendance_listview,
-	attendance_detailview,attendance_dayview,edit_attendance,section_delete,section_edit,profile_view,delete_attendance
+	attendance_detailview,attendance_dayview,edit_attendance,section_delete,section_edit,profile_view,delete_attendance,
+	add_rem_teach
 )
 app_name="app1"
 urlpatterns = [
@@ -21,6 +22,8 @@ path('sectview/',section_view,name="section"),
 path('sectview/<int:my_id>/delete',section_delete,name="section_delete"),
 path('sectview/<int:my_id>/upload',stud_upload,name="upload"),
 path('sectview/<int:my_id>/edit',section_edit,name="section_edit"),
+path('sectview/<int:my_id>/teachers',add_rem_teach,name="section_teacher"),
+
 
 path('lectview/<int:my_id>/delete',delete_lect_view,name="delete_lect"),
 path('lectview/<int:my_id>/edit',edit_lect_view,name="edit_lect"),

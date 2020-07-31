@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -12,11 +12,20 @@
                   <div class="card-header">
                     Lecture: {{quiz.lecture}}<br>
                     Quiz :{{quiz.name}}<br>
-                    <a href="{% url 'quizzes:question' my_id=quiz.slug num=1 flag=1 %}" class="btn btn-primary" style="float: right; margin-left:5px ;">add question</a>
-                    <a href="{% url 'quizzes:quizy_edit' my_id=quiz.slug %}" class="btn btn-success" style="float: right;">Edit</a>
-                     <a href="{% url 'quizzes:quizy_delete' my_id=quiz.slug %}" class="btn btn-danger" style="float: right; margin-right: 5px;">Delete</a>
-                   
-                  </div>
+                    Share id: {{share_id}}<br>
+                    {% if editable %}
+                    Not editable( imported From other quiz )
+                    <div style="float: right;"> 
+                      
+                     {% else %}
+                     <a href="{% url 'quizzes:question' my_id=quiz.slug num=1 flag=1 %}" data-toggle="tooltip" title="Add question" style="float: right; margin-left:5px ; padding-right: 3px;"><img src="{% static 'icons/plus.png' %}" style="height:20px;"></a>
+                    {% endif %}
+                     <a href="{% url 'quizzes:quizy_edit' my_id=quiz.slug %}" data-toggle="tooltip" title="Edit Quiz Details" style="float: right; padding-right: 3px;"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></a>
+                     <a href="{% url 'quizzes:quizy_delete' my_id=quiz.slug %}" data-toggle="tooltip" title="Delete Quiz" style="float: right; margin-right: 5px;padding-right: 3px;"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a>
+                 
+
+                    </div>
+                     </div>
                   <div class="card-body">
                      Description: {{quiz.description}}<br>
                      Roll out time : {{quiz.roll_out_time}}<br>
@@ -35,7 +44,11 @@
                      {% if l.q.img1 %}
                      <img src="{{l.q.img1.url}}" style="max-height: 500px;">
                      {% endif %}
-                     <a href="{% url 'quizzes:question_delete' my_id=quiz.slug num=l.q.id %}" class="btn btn-danger" style="float: right; margin-right: 5px;">Delete</a>
+                     {% if editable %}
+                    
+                    {% else %}
+                     <a href="{% url 'quizzes:question_delete' my_id=quiz.slug num=l.q.id %}"  style="float: right; margin-right: 5px;"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a>
+                     {% endif %}
                   </div>
                   <div class="card-body">
                     <ol>

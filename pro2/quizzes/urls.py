@@ -2,7 +2,7 @@
 from django.urls import path,include
 
 from .views import (quiz_view,createquiz_view,question_view,quiz_detail_view,question_delete,quiz_delete,quiz_edit,
-                    quiz_stud,quiz_dock,quiz_trans,quiz_back,quiz_end)
+                    quiz_stud,quiz_dock,quiz_trans,quiz_back,quiz_end,score_view)
 
 app_name="quizzes"
 urlpatterns = [
@@ -16,6 +16,8 @@ path('question/<slug:my_id>/<int:num>/delete',question_delete,name="question_del
 
 
 path('view/<slug:my_id>',quiz_detail_view,name="quiz_view"),
+
+path('scores/<slug:my_id>',score_view,name="score"),
 
 path('view',quiz_stud,name="quiz_stud"),
 

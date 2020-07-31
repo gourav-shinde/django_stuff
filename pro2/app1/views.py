@@ -7,6 +7,8 @@ from django.contrib import messages
 from tablib import Dataset
 from .resources import StudentsResources
 from datetime import date
+#decorator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home_view(request,*args,**kwargs):     #landing page
@@ -22,18 +24,75 @@ def base_view(request,*args,**kwargs):
 	users=User.objects.all()
 	return render(request,"base_root.html",{'obj':users})
 
-
+@login_required(login_url='/account/login')
 def section_view(request):    #adding new class and list of classes
-	listo=Section_class.objects.all()
+	listo=Section_class.objects.filter(owner=request.user)
 	form=Section_class_form(request.POST or None)
 	if form.is_valid():
-		form.save()
+		instance=form.save(commit=False)
+		instance.owner=request.user
+		instance.save()
+		instance.teacher.add(request.user)
 		form=Section_class_form()
 		return HttpResponseRedirect("")     #redirects to current page
 
 	context={"form":form,"list":listo,"flag":1,"title":"Add Class"}
 	return render(request,"classes.html",context)
 
+@login_required(login_url='/account/login')
+def add_rem_teach(request,my_id):
+	section=Section_class.objects.get(id=my_id)
+	
+	print(request.POST)
+	error=[]
+	success=[]
+	if request.POST:
+		error=[]
+		success=[]
+		if request.POST.get('add'):
+			email_list=request.POST.getlist('email')
+			for x in email_list:
+				print(x)
+				flag=0
+				try:
+					teacher=User.objects.get(email=x)
+					if teacher.is_teacher:
+						section.teacher.add(teacher)
+						success.append(f"{x} added to {section} class")	
+					else:
+						flag=1		
+				except:
+					error.append(x+' User not Found')
+				if flag:
+					error.append(x+" User is Student account")	
+			print("Add")
+		elif request.POST.get('remove'):
+			try:
+				email=request.POST.get('email')
+				print(email)
+				teacher=User.objects.get(email=email)
+				print("found")
+		
+				members=section.teacher.all()
+				flag=0
+				for x in members:
+					if x==teacher:
+						flag=1
+						section.teacher.remove(x)
+						success.append(x+" removed successfully")	
+				if flag:
+					error.append("Not in class")
+			except:
+				error.append("User not Found")
+			
+			print("remove")
+
+	context={'owner':section.owner,'teachers':section.teacher.all(),'error':error,'success':success
+
+	}
+	return render(request,"add_teacher.html",context)
+
+@login_required(login_url='/account/login')
 def section_delete(request,my_id):         #delete class
 	obj=get_object_or_404(Section_class,id=my_id)
 	print(my_id)
@@ -45,6 +104,7 @@ def section_delete(request,my_id):         #delete class
 	}
 	return render(request,"delete_plug.html",context)
 
+@login_required(login_url='/account/login')
 def section_edit(request,my_id):		#edit class
 	obj=get_object_or_404(Section_class,id=my_id)
 	print(my_id)
@@ -59,14 +119,14 @@ def section_edit(request,my_id):		#edit class
 
 
 
-
+@login_required(login_url='/account/login')
 def student_view(request):     #shows all classes in which students exist
 	obj=Section_class.objects.all()
 	context={"list":obj}
 	return render(request,"stud.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def attendance_view(request):      #attendance form
 	form=Attendance_form(request.POST or None)
 	if form.is_valid():
@@ -77,7 +137,7 @@ def attendance_view(request):      #attendance form
 	return render(request,"from.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def lecture_view(request):   #adding new lecture
 	print(request.user)
 	print(request.user.id)
@@ -95,10 +155,9 @@ def lecture_view(request):   #adding new lecture
 	return render(request,"from.html",context)
 
 
-# @login_required
+@login_required(login_url='/account/login')
 def lecturelist_view(request):  #views list of lectures
 	instance=request.user
-	print(instance.id)
 	obj=Lecture.objects.filter(user__id=instance.id)
 	if request.POST:
 		form=Lecture_form(request.POST or None)
@@ -110,11 +169,12 @@ def lecturelist_view(request):  #views list of lectures
 			return redirect("app1:lectures")
 	else:
 		form=Lecture_form()
+		form.fields['section_class'].queryset = instance.members.all()
 	context={"lecture":obj,"form":form}
 	return render(request,"vieww.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def delete_lect_view(request,my_id):   #deletes lecture
 	obj=get_object_or_404(Lecture,id=my_id)
 	print(my_id)
@@ -127,7 +187,7 @@ def delete_lect_view(request,my_id):   #deletes lecture
 	return render(request,"delete_lecture.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def edit_lect_view(request,my_id):    #edits lecture
 	obj=get_object_or_404(Lecture,id=my_id)
 	print(my_id)
@@ -142,7 +202,7 @@ def edit_lect_view(request,my_id):    #edits lecture
 	return render(request,"from.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def stud_upload(request,my_id):      #upload students to class
 	if request.POST:
 		student_resource=StudentsResources()
@@ -173,9 +233,10 @@ def stud_upload(request,my_id):      #upload students to class
 
 	return render(request,"upload.html")
 
-
+@login_required(login_url='/account/login')
 def student_detail_view(request,my_id):
 	class_=Section_class.objects.get(id=my_id)
+	lecture_list=Lecture.objects.filter(section_class=class_)
 	obj=Students.objects.filter(section=my_id)
 	if request.POST:								#add student within current class
 		form=Student_form(request.POST or None)
@@ -186,10 +247,10 @@ def student_detail_view(request,my_id):
 			return HttpResponseRedirect("")     #redirects to current page
 	else:
 		form=Student_form()
-	context={"section":obj,"form":form,"class":class_}
+	context={"section":obj,"form":form,"class":class_,'lecture':lecture_list}
 	return render(request,"students_view.html",context)
 
-
+@login_required(login_url='/account/login')
 def student_delete_view(request,my_id):
 	obj=get_object_or_404(Students,id=my_id)
 	section=obj.section
@@ -206,7 +267,7 @@ def student_delete_view(request,my_id):
 
 
 
-
+@login_required(login_url='/account/login')
 def student_edit_view(request,my_id):
 	obj=get_object_or_404(Students,id=my_id)
 	section=obj.section
@@ -222,7 +283,7 @@ def student_edit_view(request,my_id):
 	return render(request,"from.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def add_attendance_view(request,my_id):
 	var=Lecture.objects.get(id=my_id)
 	print(my_id)
@@ -242,6 +303,8 @@ def add_attendance_view(request,my_id):
 			print(instance.lecture)
 			instance.save()
 			form.save_m2m()
+			var.lectures_conducted+=1
+			var.save()
 			return redirect("app1:attendance")
 	else:
 		form=Attendance_form(my_id)
@@ -250,7 +313,7 @@ def add_attendance_view(request,my_id):
 	return render(request,"from.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def attendance_listview(request):
 	instance=request.user
 	print(instance.id)
@@ -258,6 +321,8 @@ def attendance_listview(request):
 	context={"lecture":obj}
 	return render(request,"attendance_views.html",context)
 
+
+@login_required(login_url='/account/login')
 def attendance_detailview(request,my_id):
 
 	#dates
@@ -291,6 +356,7 @@ def attendance_detailview(request,my_id):
 	return render(request,"attendance_detail.html",context)
 
 
+@login_required(login_url='/account/login')
 def attendance_dayview(request,my_id):
 	obj=Attendance.objects.get(id=my_id)
 	print(my_id)
@@ -320,12 +386,13 @@ def attendance_dayview(request,my_id):
 	context={"model":obj,'student':students,"presenty":present}
 	return render(request,"attendance_dayview.html",context)
 
-
+@login_required(login_url='/account/login')
 def edit_attendance(request,my_id):
 	obj=Attendance.objects.get(id=my_id)
-	print(obj)
-	print(my_id)
+	#print(obj)
+	#print(my_id)
 	form=AttendanceEdit_form(request.POST or None,instance=obj)
+	form.fields['students_present'].queryset = Students.objects.filter(section=obj.lecture.section_class)
 	if form.is_valid():
 		form.save()
 		return redirect("../../")
@@ -334,11 +401,14 @@ def edit_attendance(request,my_id):
 	}
 	return render(request,"from.html",context)
 
-
+@login_required(login_url='/account/login')
 def delete_attendance(request,my_id):
 	obj=get_object_or_404(Attendance,id=my_id)
 	print(my_id)
 	if request.POST:
+		lecture=obj.lecture
+		lecture.lectures_conducted-=1
+		lecture.save()
 		obj.delete()
 		return redirect("../../")
 	context={
@@ -356,7 +426,7 @@ def delete_attendance(request,my_id):
 
 #students views
 
-
+@login_required(login_url='/account/login')
 def profile_view(request):
 	instance=request.user
 	print(Students.objects.filter(email=instance.email).count())
@@ -388,7 +458,7 @@ def profile_view(request):
 			percentages[lect_num]={"lect":lect,"per":per}
 			lect_num=lect_num+1
 			print("flag")
-			print(flag)
+			#print(flag)
 	else:
 		print("error")
 		flaggy=0

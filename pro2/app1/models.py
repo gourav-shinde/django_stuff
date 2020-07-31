@@ -3,11 +3,15 @@ from custom_user.models import User
 import datetime
 
 class Section_class(models.Model):
+	owner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+	teacher=models.ManyToManyField(User,related_name="members",blank=True)
 	year=models.CharField(max_length=20)
 	div=models.CharField(max_length=10)
 
 	def __str__(self):
 		return "%s %s"%(self.year,self.div)
+
+
 
 class Lecture(models.Model):
 	user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="child_teach")

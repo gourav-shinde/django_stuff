@@ -27,7 +27,7 @@
                         <table style="border:0px; ">
                         <tr>
                           
-                          <td><a href="{% url 'app1:stud_view' my_id=obj.id %}" data-toggle="tooltip" title="View Students"><img src="{% static 'icons/eye-24.png' %}" style="height:20px;"></a></td>
+                         <td><a href="{% url 'app1:stud_view' my_id=obj.id %}" data-toggle="tooltip" title="View Students"><img src="{% static 'icons/eye-24.png' %}" style="height:20px;"></a></td> 
                           <td><a href="{% url 'attendance_manager:class_viewer' my_id=obj.id %}" data-toggle="tooltip" title="Attendance Manager"><img src="{% static 'icons/attendance-24.png' %}" style="height:20px;"></a></td>
                           
                         </tr>

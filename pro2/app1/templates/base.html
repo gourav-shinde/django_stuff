@@ -2,8 +2,9 @@
 <html>
 
 <head> 
-	<title>ARSENAL</title>
+	<title>ARSENEL</title>
 	{% load static %}
+	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172723038-1"></script>
 		<script>
@@ -13,8 +14,10 @@
 
 		gtag('config', 'UA-172723038-1');
 		</script>
-
+	
+	
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>   
+	
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'app1/css/master.css' %}">
@@ -34,8 +37,25 @@
     <link rel="stylesheet" href="{% static 'bubbly/css/style.default.css' %}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{% static 'bubbly/css/custom.css' %}">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="{% static 'bubbly/img/favicon.png?3' %}">
+	<!-- Favicon-->
+	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'Logos/apple-icon-57x57.png' %}">
+	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'Logos/apple-icon-60x60.png' %}">
+	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'Logos/apple-icon-72x72.png' %}">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'Logos/apple-icon-76x76.png' %}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'Logos/apple-icon-114x114.png' %}">
+	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'Logos/apple-icon-120x120.png' %}">
+	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'Logos/apple-icon-144x144.png' %}">
+	<link rel="apple-touch-icon" sizes="152x152" href="{% static 'Logos/apple-icon-152x152.png' %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'Logos/apple-icon-180x180.png' %}">
+	<link rel="icon" type="image/png" sizes="192x192"  href="{% static 'Logos/android-icon-192x192.png' %}">
+	<!-- <link rel="icon" type="image/png" sizes="32x32" href="{% static 'Logos/favicon-32x32.png' %}"> -->
+	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'Logos/favicon-96x96.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'Logos/favicon.ico' %}">
+	<link rel="manifest" href="{% static 'Logos//manifest.json' %}">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="{% static 'Logos/ms-icon-144x144.png' %}">
+	<meta name="theme-color" content="#ffffff">
+    
     <!-- gijgo datepicker -->
     <link rel="stylesheet" type="text/css" href="{% static 'gijgo/css/gijgo.min.css' %}">
 
@@ -50,10 +70,9 @@
     <link rel="stylesheet" href="{% static 'homepage/css/style.defaulthome.css' %}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{% static 'homepage/css/custom.css' %}">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="favicon.png">
     <meta name="robots" content="all,follow">
-    <!-- homepageend -->
+	<!-- homepageend -->
+	
 
 </head>    
 <body>
@@ -98,7 +117,7 @@
         		<li class="sidebar-list-item"><a href="{% url 'app1:section' %}" class="mwidth sidebar-link text-muted"><i class="o-home-1 mr-3 text-gray"></i><span>Classes</span></a></li>
               
               <li class="sidebar-list-item"><a href="{% url 'app1:lectures' %}" class="mwidth sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Lecture</span></a></li>
-              <li class="sidebar-list-item"><a href="{% url 'app1:student' %}" class="mwidth sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Student</span></a></li>
+              <!-- <li class="sidebar-list-item"><a href="{% url 'app1:student' %}" class="mwidth sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span>Student</span></a></li> -->
               <li class="sidebar-list-item"><a href="{% url 'app1:attendance' %}" class="mwidth sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span>Attendee</span></a></li>
           <li class="sidebar-list-item"><a href="{% url 'bloggy:posts' %}"  class="mwidth sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Posts</span></a>
             
@@ -208,8 +227,8 @@
 			      <div class="container">
 			        <h2>About Me</h2>
 			        <div class="row">
-			          <p class="lead col-lg-10">This webapplication is made using Django framework and has postgresql database.
-			          I am a Student and am currently developing this website.some of the features are currently pending.Stay Tuned </p>
+			          <p class="lead col-lg-10">This web application is made using Django framework and has postgresql database.
+			          I am Student and am currently developing this website.some of the features are currently pending. Stay Tuned </p>
 			        </div>
 			      </div>
 			    </section>
@@ -309,11 +328,13 @@
 
 
    <!-- JavaScript files-->
-    <script src="{% static 'bubbly/vendor/jquery/jquery.min.js' %}"></script>
+   {% block contentquery %}
+	<script src="{% static 'bubbly/vendor/jquery/jquery.min.js' %}"></script>
+	{% endblock %}
     <script src="{% static 'bubbly/vendor/popper.js/umd/popper.min.js' %}"> </script>
     <script src="{% static 'bubbly/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bubbly/vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
-    <script src="{% static 'bubbly/vendor/chart.js/Chart.min.js' %}"></script>
+    <!-- <script src="{% static 'bubbly/vendor/chart.js/Chart.min.js' %}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="{% static 'bubbly/js/charts-home.js' %}"></script>
     <script src="{% static 'bubbly/js/front.js' %}"></script>
@@ -357,6 +378,7 @@
 				});
 
 	</script>
+	
 	
 
 	

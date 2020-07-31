@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contentquery %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'Excel/src/jquery.table2excel.js' %}"></script>
+<!-- jquery table -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+{% endblock %}
+{% block content %}
+
+
+<div class="page-holder w-100 d-flex flex-wrap">
+  <div class="container-fluid px-xl-5">
+    <section class="py-5">
+      <div class="row">
+        <div class="col-lg-12 mb-4">
+          <div class="card">
+                  <div class="card-header">
+                    Lecture: {{quiz.lecture}}<br>
+                    Quiz :{{quiz.name}}<br>
+                    
+                  </div>
+                  <div class="card-body">
+                     Description: {{quiz.description}}<br>
+                     Roll out time : {{quiz.roll_out_time}}<br>
+                     End time : {{quiz.stop_time}}
+                    
+                  </div>
+                    
+                </div>
+              </div>
+
+                
+                <div class="col-lg-12 mb-4">
+                <div class="card">
+                 
+                  <div class="card-body">
+                    <div style="overflow-x:auto;">
+                      <table id="empTable">
+                        <thead>
+                          <tr>
+                            <th>Roll no</th>
+                            <th>Email</th>
+                            <th>Score</th>
+                        </tr>
+  
+                        </thead>
+                        <tbody>
+                          {% for x,j in result %}
+                          <tr>
+                              <td>{{j.roll}}</td>
+                              <td>{{x.user}}</td>
+                              <td>{{x.score}}</td>
+                          </tr>
+                          {% endfor %}
+  
+                        </tbody>
+                      </table>
+
+                    </div>
+                    
+                  
+                    <button type="submit" class="btn btn-primary" style="margin-top: 5px;" onclick="myfun()">Excel</button>
+                   
+                  </div>
+                  
+                    
+                </div>
+              </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+    function myfun()
+    {
+        $("#empTable").table2excel({
+            filename: "{{quiz.name}}_{{quiz.lecture}}.xls"
+        });
+        
+    }
+    $(document).ready( function () {
+    $('#empTable').DataTable();
+} );
+</script>
+
+
+{% endblock %}

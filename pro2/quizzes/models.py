@@ -12,10 +12,11 @@ class Quiz(models.Model):
 	lecture=models.ForeignKey(Lecture,on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	description = models.CharField(max_length=70)
-	slug = models.SlugField(blank=True)
+	slug = models.SlugField(blank=True,unique=True)
 	roll_out_time = models.DateTimeField(default=datetime.now,blank=True)
 	stop_time = models.DateTimeField(default=datetime.now,blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
+	pointer=models.BooleanField(default=False,blank=True,null=True)
 
 	class Meta:
 		ordering = ['timestamp',]
@@ -23,6 +24,10 @@ class Quiz(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Quiz_point(models.Model):
+	quiz_fro=models.ForeignKey(Quiz, on_delete=models.CASCADE,related_name="source")
+	quiz_to=models.ForeignKey(Quiz, on_delete=models.CASCADE,related_name="points")
 
 
 class Question(models.Model):
@@ -67,4 +72,5 @@ class UsersAnswer(models.Model):
 
 @receiver(pre_save, sender=Quiz)
 def slugify_name(sender, instance, *args, **kwargs):
-    instance.slug = slugify(instance.name)
+	name=instance.name+"_"+str(instance.lecture)
+	instance.slug = slugify(name)

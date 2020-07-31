@@ -4,7 +4,10 @@ from .models import Post
 from .forms import PostForm,TeachPost
 from app1.models import Section_class,Students
 from itertools import chain
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required(login_url='/account/login')
 def Post_view(request):      #for students temp
 	if request.user.is_student:
 		if not Students.objects.filter(email=request.user).count():
@@ -20,9 +23,9 @@ def Post_view(request):      #for students temp
 		for sec in obj:
 			query1.append(int(sec.section_class.id))
 		query1=list(dict.fromkeys(query1))
-		print(query1)
+		#print(query1)
 		section_list=query1
-		print(section_list)
+		#print(section_list)
 		for sec in section_list:
 			drake=Post.objects.filter(section__id=str(sec)).order_by('date_posted')
 			drake=drake.reverse()
@@ -34,7 +37,7 @@ def Post_view(request):      #for students temp
 			if form.is_valid():
 				instance=form.save(commit=False)
 				instance.user=request.user
-				print(instance.user)
+				#print(instance.user)
 				instance.save()
 				return redirect("/posts")
 		else:
@@ -46,30 +49,30 @@ def Post_view(request):      #for students temp
 
 	elif request.user.is_student:
 		query1=Students.objects.get(email=request.user.email)
-		print(query1.section)
+		#print(query1.section)
 		section_list=query1.section
 		section_id=Students.objects.get(email=request.user.email)
 		post_query=Post.objects.filter(section=query1.section).order_by('date_posted')
-		print("########################")
-		print(Post.objects.all())
-		print(post_query)
+		#print("########################")
+		#print(Post.objects.all())
+		#print(post_query)
 		post_query=post_query.reverse()
 		
 
 		if request.POST:
-			print(request.POST)
+			#print(request.POST)
 			title=request.POST.get('Title')
 			description=request.POST.get('description')
 			instance=Post(section=section_id.section,user=request.user,title=title,description=description)
 			instance.save()
-			print(instance)
+			#print(instance)
 			return redirect("bloggy:posts")
 	
 
 		context={'posts':post_query}
 		return render(request,"posts.html",context)
 
-
+@login_required(login_url='/account/login')
 def myPost_view(request):      #for students temp
 	post_query=[]
 	section_list=[]
@@ -77,14 +80,14 @@ def myPost_view(request):      #for students temp
 	drake=[]
 	if request.user.is_teacher:
 		obj=Lecture.objects.filter(user__id=request.user.id)
-		print(obj)
+		#print(obj)
 		query1=[]
 		for sec in obj:
 			query1.append(int(sec.section_class.id))
 		query1=list(dict.fromkeys(query1))
-		print(query1)
+		#print(query1)
 		section_list=query1
-		print(section_list)
+		#print(section_list)
 		for sec in section_list:
 			drake=Post.objects.filter(section__id=str(sec),user=request.user).order_by('date_posted')
 			post_query=list(chain(post_query,drake))
@@ -107,7 +110,7 @@ def myPost_view(request):      #for students temp
 
 	elif request.user.is_student:
 		query1=Students.objects.get(email=request.user.email)
-		print(query1.section)
+		#print(query1.section)
 		section_list=query1.section
 		section_id=Students.objects.get(email=request.user.email)
 		post_query=Post.objects.filter(section=query1.section,user=request.user).order_by('date_posted')
@@ -115,22 +118,22 @@ def myPost_view(request):      #for students temp
 		
 
 		if request.POST:
-			print(request.POST)
+			#print(request.POST)
 			title=request.POST.get('Title')
 			description=request.POST.get('description')
 			instance=Post(section=section_id.section,user=request.user,title=title,description=description)
 			instance.save()
-			print(instance)
+			#print(instance)
 			return redirect("bloggy:posts")
 	
 
 		context={'posts':post_query}
 		return render(request,"myposts.html",context)
 
-
+@login_required(login_url='/account/login')
 def editpost(request,my_id):
 	obj=get_object_or_404(Post,id=my_id)
-	print(my_id)
+	#print(my_id)
 
 	if request.user.is_student:
 		form=PostForm(request.POST or None,instance=obj)
@@ -145,10 +148,10 @@ def editpost(request,my_id):
 	return render(request,"forms.html",context)
 
 
-
+@login_required(login_url='/account/login')
 def post_delete(request,my_id):         #delete post
 	obj=get_object_or_404(Post,id=my_id)
-	print(my_id)
+	#print(my_id)
 	if request.POST:
 		obj.delete()
 		return redirect("/posts/myPosts")
@@ -159,7 +162,7 @@ def post_delete(request,my_id):         #delete post
 
 
 
-
+@login_required(login_url='/account/login')
 def teacher_post_view(request,my_id=None):  #TAB VIEW
 	post_query=[]
 	section_list=[]
@@ -168,14 +171,14 @@ def teacher_post_view(request,my_id=None):  #TAB VIEW
 	aloo=[]		
 	sect="Select Class"
 	obj=Lecture.objects.filter(user__id=request.user.id)
-	print(obj)
+	#print(obj)
 	query1=[]
 	for sec in obj:
 		query1.append(sec.section_class)
 	query1=list(dict.fromkeys(query1))
-	print(query1)
+	#print(query1)
 	section_list=query1
-	print(section_list)
+	#print(section_list)
 	for sec in section_list:
 		aloo.append(sec)
 	flag=1
@@ -184,9 +187,7 @@ def teacher_post_view(request,my_id=None):  #TAB VIEW
 		sect=Section_class.objects.get(id=my_id)
 		post_query=Post.objects.filter(section__id=my_id)
 		post_query=post_query[::-1]
-		print("uno")
-		for post in post_query:
-			print(post)
+		
 
 	if request.POST:
 		if not my_id==None:
@@ -199,13 +200,13 @@ def teacher_post_view(request,my_id=None):  #TAB VIEW
 			if my_id:
 				instance.section=Section_class.objects.get(id=my_id)
 			instance.user=request.user
-			print(instance.user)
+			#print(instance.user)
 			instance.save()
 			if not my_id==None:
 				ret="/posts/myTeachPosts/"+str(my_id)
 				return redirect(ret)
 			return redirect("/posts/myTeachPosts")
-		print("didnt validate")
+		#print("didnt validate")
 	else:
 		if my_id==None:
 			form=TeachPost()

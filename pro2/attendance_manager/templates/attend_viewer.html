@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block contentquery %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{% static 'Excel/src/jquery.table2excel.js' %}"></script>
+{% endblock %}
 {% block content %}
 <div class="page-holder w-100 d-flex flex-wrap" style="margin-bottom: 0px;">
         <div class="container-fluid px-xl-5">
@@ -42,8 +46,8 @@
                   
                   <div class="card-body">
                   	<div style="overflow-x:auto;">
-			<td id="nopad">
-				<table border="1" cellpadding="0" >
+			
+				<table border="1" cellpadding="0" id="empTable">
 					<tr>
 						<th colspan="3">Date</th>
 						<th rowspan="2">Attendance</th>
@@ -90,6 +94,8 @@
 
 					</tr>
 				</table>
+				<button type="submit" class="btn btn-primary" style="margin-top: 5px;" onclick="myfun()" disabled>Excel</button>
+                   
 			</div>
 		
                   </div>
@@ -102,6 +108,13 @@
           </div></section></div>
 
 
-
+		  <script>
+			function myfun()
+			{
+				$("#empTable").table2excel({
+					filename: "{{quiz.name}}_{{quiz.lecture}}.xls"
+				});
+			}
+		</script>
    
 {% endblock %}
