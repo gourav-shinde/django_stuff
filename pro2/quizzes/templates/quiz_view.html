@@ -18,6 +18,7 @@
                     <div style="float: right;"> 
                       
                      {% else %}
+                     <div style="float: right;"> 
                      <a href="{% url 'quizzes:question' my_id=quiz.slug num=1 flag=1 %}" data-toggle="tooltip" title="Add question" style="float: right; margin-left:5px ; padding-right: 3px;"><img src="{% static 'icons/plus.png' %}" style="height:20px;"></a>
                     {% endif %}
                      <a href="{% url 'quizzes:quizy_edit' my_id=quiz.slug %}" data-toggle="tooltip" title="Edit Quiz Details" style="float: right; padding-right: 3px;"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></a>
