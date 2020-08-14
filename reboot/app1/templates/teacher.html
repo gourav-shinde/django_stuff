@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+	<title>ARSENEL-Teacher</title>
+	{% load static %}
+	
+  <!-- new navbar -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+ 	<meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{% static 'bubbly/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/orionicons.css' %}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'bubbly/css/custom.css' %}">
+	<!-- Favicon-->
+	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'Logos/apple-icon-57x57.png' %}">
+	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'Logos/apple-icon-60x60.png' %}">
+	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'Logos/apple-icon-72x72.png' %}">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'Logos/apple-icon-76x76.png' %}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'Logos/apple-icon-114x114.png' %}">
+	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'Logos/apple-icon-120x120.png' %}">
+	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'Logos/apple-icon-144x144.png' %}">
+	<link rel="apple-touch-icon" sizes="152x152" href="{% static 'Logos/apple-icon-152x152.png' %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'Logos/apple-icon-180x180.png' %}">
+	<link rel="icon" type="image/png" sizes="192x192"  href="{% static 'Logos/android-icon-192x192.png' %}">
+	<!-- <link rel="icon" type="image/png" sizes="32x32" href="{% static 'Logos/favicon-32x32.png' %}"> -->
+	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'Logos/favicon-96x96.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'Logos/favicon.ico' %}">
+	<link rel="manifest" href="{% static 'Logos//manifest.json' %}">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="{% static 'Logos/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- gijgo datepicker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'gijgo/css/gijgo.min.css' %}">
+    
+    
+
+    
+	
+
+</head>    
+<body>
+  <input type="text" name="handle" id="handle_id" style="display: none;" value="">
+
+
+{% include 'navbar.html' %}
+
+<style>
+  @media only screen and (max-width: 700px) {
+		  /* For mobile phones: */
+		  .side25{
+		    position: fixed;
+		    height: 100vh;
+		    z-index: 2;
+		  } 
+		  
+		}
+    .disappeared{
+        display: none;
+    }
+    .class_card{
+      height: 200px;
+      padding-top: 20px;
+      padding-left: 5px;
+      padding-right: 5px;  
+      margin-bottom: 5px;   
+    }
+    .contain{
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .class_card:hover{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    td{
+        padding:4px;
+    }
+</style>
+
+
+
+<div class="d-flex align-items-stretch">
+
+    <!-- sidebar -->
+    <div id="sidebar" class="sidebar py-3 side25">
+      <div class="text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">MAIN</div>
+      <ul class="sidebar-menu list-unstyled">
+            {% if request.user.is_teacher %}
+            <li class="sidebar-list-item"><a  id="class" class="sidebar-link text-muted"><i class="o-home-1 mr-3 text-gray"></i><span style="cursor: pointer;">Classes</span></a></li>
+            <li class="sidebar-list-item"><a  id="lecture" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span style="cursor: pointer;">Lecture</span></a></li>
+            <li class="sidebar-list-item"><a  id="posts" class="sidebar-link text-muted"><i class="o-table-content-1 mr-3 text-gray"></i><span style="cursor: pointer;">Posts</span></a></li>
+            <li class="sidebar-list-item"><a  id="quiz" class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span style="cursor: pointer;">Quiz</span></a></li>
+            {% else %}
+            <li class="sidebar-list-item"><a class="sidebar-link text-muted"><i class="o-survey-1 mr-3 text-gray"></i><span style="cursor: pointer;">Not Verified</span></a></li>
+            {% endif %}
+      </ul>
+      <div class=" text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family" style="color: #4287f5">EXTRAS</div>
+      <ul class="sidebar-menu list-unstyled">
+            <li class="sidebar-list-item"><a href="{% url 'custom_user:logout' %}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a></li>
+      </ul>
+    </div>
+    <!-- sidebarend -->
+    
+    <div class="page-holder w-100 d-flex flex-wrap">
+      <div class="container-fluid px-xl-5">
+
+        <section id="insert/delete">
+            <!-- all html inserted here -->
+
+        </section>
+       
+        
+      </div>
+      <footer class="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 text-center text-md-left text-primary">
+              <p class="mb-2 mb-md-0">Gaurav Shinde(js)</p>
+            </div>
+
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  	  <!-- Modal -->
+        <div class="modal fade" id="myModalQuiz" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Add Quiz</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+        
+                
+        
+                <div class="modal-body">
+                  <!-- tabs -->
+                  <ul id="myTab" class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active">Create New</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#profile" class="nav-link">Import Existing</a>
+                    </li>
+                </ul>
+        
+                  <!-- tabcontent -->
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="home" style="background-color: white;">
+                      <form method="POST" style="margin-top: 5px;">
+                        {% csrf_token %}
+                        {{ quiz.as_p }}
+                        <br>
+                        <div style="float: right;">
+                          <input class="btn btn-success"type="submit" value="Create">
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                        
+                      </form>
+                        
+                    </div>
+                    <div class="tab-pane fade" id="profile" style="background-color: white;">
+                      <form method="POST" class="form-group" style="margin-top: 5px;">
+                        {% csrf_token %}      
+                        <input type="text" class="form-control" placeholder="Share ID" name="share_id" required>
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" placeholder="Name" name="Name" required>
+                        <label for="lecture" style="margin-top: 4px;">Lecture:</label>
+                        <select class="form-control" name="lecture" id="lecture" required>
+                          {% for x in lecture %}
+                          <option value="{{x.id}}">{{x}}</option>
+                          {% endfor %}
+                          
+                        </select>
+                        <div style="float: right; margin-top: 5px;" >
+                        <input type="submit" class="btn btn-success" value="Import">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                      </div>
+                      </form>
+                      
+                      
+                    </div>
+                    <div class="tab-pane fade" id="messages">
+                        <h4 class="mt-2">Messages tab content</h4>
+                        <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
+                    </div>
+                </div>
+                 
+        
+                
+                        
+                    
+        
+                </div>
+                
+        
+               
+        
+              </div>
+              
+            </div>
+          </div>
+        
+        </div> 
+    
+    <script>
+        var inserted=document.getElementById("insert/delete")
+        document.getElementById("class").addEventListener("click",myclasses);
+        document.getElementById("lecture").addEventListener("click", mylecture);
+        document.getElementById("quiz").addEventListener("click", myquiz);
+        document.getElementById("posts").addEventListener("click", myposts);
+
+
+        function myclasses(){
+            document.getElementById("sidebar").className="sidebar py-3 side25";
+            document.getElementById("class").className="sidebar-link text-muted active"
+            document.getElementById("lecture").className="sidebar-link text-muted"
+            document.getElementById("quiz").className="sidebar-link text-muted"
+            document.getElementById("posts").className="sidebar-link text-muted"
+            document.getElementById("handle_id").value = "class"; 
+
+            function cb(data){
+            console.log(data);
+
+            var str=""
+            for(var i=0;i<data.section.length;i++){
+                str=str+
+                `
+                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
+                      <div class="left d-flex align-items-center">
+                        <div class="text">
+                          <h6 class="mb-0 d-flex align-items-center"> <span>`+data.section[i].year+` `+data.section[i].div+`</span><span class="dot dot-sm ml-2 bg-blue"></span></h6><small class="text-gray">Beta</small>
+                        </div>
+                      </div>
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0" style="position: absolute; right: 0px;">
+                        <table style="border:0px;">
+						<tr>
+                            <td><a href="/app1/student/`+data.section[i].id+`/view" data-toggle="tooltip" title="View Students"><img src="{% static 'icons/eye-24.png' %}" style="height:20px;"></a></td> 
+                            <td><a href="/attendance_manage/class/`+data.section[i].id+`" data-toggle="tooltip" title="Attendance Manager"><img src="{% static 'icons/attendance-24.png' %}" style="height:20px;"></a></td>            
+							<td><a href="/app1/sectview/`+data.section[i].id+`/teachers" data-toggle="tooltip" title="Add/Remove Teachers"><img src="{% static 'icons/teacher_manager.png' %}" style="height:23px;"></a></td>
+						</tr>
+						</table>
+                      </div>
+                    </div>
+                   
+                `
+            }
+
+            inserted.innerHTML=`
+            <div class="row">
+              <div class="col-lg-12 mb-4 mt-5">
+ 			
+                <div class="card">         
+                  <div class="card-header">
+                    <h2 class="h6 mb-0 text-uppercase">Lectures</h2>
+                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right;"><i class="fas fa-plus"></i></span> Class
+         </button>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-gray mb-5">Place to edit,delete and upload students to your new class.</p>
+                    `+str+`
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Add Class</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form method="POST">
+
+                <div class="modal-body">
+
+                    
+                        {% csrf_token %}
+                        <label for="id_year">Year:</label>
+                        <input type="text" id="id_year" class="form-control" name="year" required>
+
+                        <label for="id_Div">Div:</label>
+                        <input type="text" id="id_Div" class="form-control" name="div" required>
+                        
+                    
+
+                </div>
+                <div class="modal-footer">
+                <input class="btn btn-success"type="submit" value="Add Class">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+                </form>
+
+            </div>
+            
+            </div>
+        </div>
+
+        </div> 
+            `
+
+
+            
+            }
+
+            $.get("http://127.0.0.1:8000/app1/jsection",cb);
+
+        }
+
+        // #######################################
+
+        function mylecture(){
+            document.getElementById("sidebar").className="sidebar py-3 side25";
+            document.getElementById("class").className="sidebar-link text-muted"
+            document.getElementById("lecture").className="sidebar-link text-muted active"
+            document.getElementById("quiz").className="sidebar-link text-muted "
+            document.getElementById("posts").className="sidebar-link text-muted"
+            document.getElementById("handle_id").value = "lecture"; 
+
+
+
+            function cb(data){
+            console.log(data);
+
+            var str=""
+            for(var i=0;i<data.section.length;i++){
+                str=str+
+                `
+                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
+                      <div class="left d-flex align-items-center">
+                        <div class="text">
+                          <h6 class="mb-0 d-flex align-items-center"> <span>`+data.lecture[i].subject+`</span><span class="dot dot-sm ml-2 bg-blue"></span></h6><small class="text-gray">`+data.section[i]+`</small>
+                        </div>
+                      </div>
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0" style="position: absolute; right: 0px;">
+                        <table style="border:0px;">
+						<tr>
+							
+							<td><a href="/app1/attendance/`+data.lecture[i].id+`" data-toggle="tooltip" title="Add Attendance"><img src="{% static 'icons/add_a.png' %}" style="height:20px;"></a></td>
+                            <td><a href="/attendance_manage/`+data.lecture[i].id+`" data-toggle="tooltip" title="Lecture Attendance Manager"><img src="{% static 'icons/manager-80.png' %}" style="height:25px;"></a></td>
+							<td><a href="/app1/lectview/`+data.lecture[i].id+`/edit" data-toggle="tooltip" title="Edit"><img src="{% static 'icons/edit.svg' %}" style="height:20px;"></a></td>
+							<td><a href="/app1/lectview/`+data.lecture[i].id+`/delete" data-toggle="tooltip" title="Delete"><img src="{% static 'icons/trash-can.svg' %}" style="height:20px;"></a></td>
+							
+						</tr>
+						</table>
+                      </div>
+                    </div>
+                   
+                `
+            }
+
+            inserted.innerHTML=`
+            <div class="row">
+              <div class="col-lg-12 mb-4 mt-5">
+ 			
+                <div class="card">         
+                  <div class="card-header">
+                    <h2 class="h6 mb-0 text-uppercase">Lectures</h2>
+                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right;"><i class="fas fa-plus"></i></span> Lecture
+         </button>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-gray mb-5">Place to manage your lectures.</p>
+                    `+str+`
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Add Lecture</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form method="POST">
+
+                <div class="modal-body">
+
+                    
+                        {% csrf_token %}
+                        <label for="lecture" style="margin-top: 4px;">Lecture:</label>
+                        <select class="form-control" name="lecture" id="lecture" required>
+                         {% for x in lecture %}
+                         <option value="{{x.id}}">{{x}}</option>
+                         {% endfor %}
+                         </select>
+                        <label for="id_subject">Subject:</label>
+                        <input type="text" id="id_subject" class="form-control" name="subject" required>
+                        
+                        
+
+                </div>
+                <div class="modal-footer">
+                <input class="btn btn-success"type="submit" value="Add Lecture">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+                </form>
+
+            </div>
+            
+            </div>
+        </div>
+
+        </div> 
+            `
+
+
+            
+            }
+
+            $.get("http://127.0.0.1:8000/app1/jlecture",cb);
+            
+
+        }
+
+        // ############################################
+
+        function myquiz(){
+            document.getElementById("sidebar").className="sidebar py-3 side25";
+            document.getElementById("class").className="sidebar-link text-muted"
+            document.getElementById("lecture").className="sidebar-link text-muted"
+            document.getElementById("quiz").className="sidebar-link text-muted active"
+            document.getElementById("posts").className="sidebar-link text-muted"
+            document.getElementById("handle_id").value = "quiz"; 
+
+            function cb(data){
+            console.log(data);
+            var st1=""
+            for(var i=0;i<data.quiz_active.length;i++){
+                st1=st1+
+                `
+                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
+                      <div class="left d-flex align-items-center">
+                        <!-- <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-dropbox"></i></div> -->
+                        <div class="text">
+                          <h6 class="mb-0 d-flex align-items-center"> <span>`+data.quiz_active[i].name+`</span><span class="dot dot-sm ml-2 bg-blue"></span></h6><small class="text-gray">Beta</small>
+                        </div>
+                      </div>
+
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0"  style="position: absolute; right: 0px;">
+                        <table style="border:0px;">
+					            <tr>
+						            <td><a href="/quiz/scores/`+data.quiz_expired[i].slug+`" data-toggle="tooltip" title="Scores"><img src="{% static 'icons/score.png' %}" style="height:30px;"></a> </td>
+						            <td><a href="/quiz/view/`+data.quiz_expired[i].slug+`"  data-toggle="tooltip" title="Detail"><img src="{% static 'icons/detail.png' %}" style="height:25px;"></a> </td>
+					            </tr>
+						</table>
+                      </div>
+
+                    </div>
+                `
+            }
+            
+            for(var i=0;i<data.quiz_expired.length;i++){
+                st1=st1+
+                `
+                <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row" style="position: relative;">
+                      <div class="left d-flex align-items-center">
+                        <!-- <div class="icon icon-lg shadow mr-3 text-gray"><i class="fab fa-dropbox"></i></div> -->
+                        <div class="text">
+                          <h6 class="mb-0 d-flex align-items-center"> <span>`+data.quiz_expired[i].name+`(expired)</span><span class="dot dot-sm ml-2 bg-red"></span></h6><small class="text-gray">Beta</small>
+                        </div>
+                      </div>
+                      <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0" style="position: absolute; right: 0px;">
+                        <table style="border:0px;">
+                        <tr>
+                          <td><a href="/quiz/scores/`+data.quiz_expired[i].slug+`" data-toggle="tooltip" title="Scores"><img src="{% static 'icons/score.png' %}" style="height:30px;"></a> </td>
+						   <td><a href="/quiz/view/`+data.quiz_expired[i].slug+`"  data-toggle="tooltip" title="Detail"><img src="{% static 'icons/detail.png' %}" style="height:25px;"></a> </td>
+					                	  
+                        </tr>
+                        </table>
+                      </div>
+                    </div>
+                `
+            }
+
+            inserted.innerHTML=
+            `
+           
+            <div class="row">
+              <div class="col-lg-12 mb-4 mt-5">
+ 			
+                <div class="card">         
+                  <div class="card-header">
+                    <h2 class="h6 mb-0 text-uppercase">Quizes</h2>
+                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModalQuiz" style="float: right;"><i class="fas fa-plus"></i></span> Quiz
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    {% if success %}
+                      <div class="alert alert-success" role="alert" style="margin-top: 0px;">
+                        
+                        {% for x in success %}
+                        {{x}}<br>
+                        {% endfor %}
+                        
+                      </div>
+                      {% endif %}
+                      {% if error %}
+                      <div class="alert alert-danger" role="alert" style="margin-top: 0px;">
+                        
+                        {% for x in error %}
+                        {{x}}<br>
+                        {% endfor %}
+                        
+                      </div>
+                      {% endif %}
+                    <p class="text-gray mb-5" style="margin-bottom: 0px;">Place to manage your Quizzes.</p> 
+                    `+st1+`
+                  </div>
+                </div>
+              </div>
+          </div>
+
+
+  
+            `
+            
+            }
+
+            $.get("http://127.0.0.1:8000/quiz/jquiz",cb);
+
+            
+
+        }
+
+        // #########################
+        function secPosts(id){
+          document.getElementById("insert/delete").innerHTML="";
+
+          function cb(data){
+            console.log(data);
+            var p = document.getElementById("insert/delete");
+
+
+            p.innerHTML=
+            `
+            <div class="row">
+              <div class="col-12 mt-5">
+                <div class="jumbotron" style="border-radius:15px;padding-top:30px;height:150px;">
+                  <h2>Title</h2>
+                  <p>http://127.0.0.1:8000/posts/myPostApi/`+id+`</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+            <div class="col-12">
+              <div id="inputy"class="card" style="min-height:100px">
+                <div class="container" id="clicko" style="padding-top:30px;height:100%;width:100%;">
+                  <h5 class="ml-4">Share something with your class</h5>
+                </div>
+
+              <div class="container disappeared" id="formm" style="padding-top:30px;padding-bottom:20px;">
+                <form action="www.google.com" method="POST" id="create-post" class="form">{% csrf_token %}
+                  <input type="text" class="disappeared" name="section" value="`+id+`">
+                  <input name="title" style="margin:5px;"class="form-control"type="text" placeholder="Title" required>
+                  <textarea class="form-control" style="margin:5px;" name="description" rows="4" cols="50" placeholder="Description" required></textarea>
+                  <hr>
+                  <a id="close" class="btn btn-primary">Close</a>
+                  <button type="submit" class="btn btn-success" value="Submit">Post</button>
+                  
+                </form>
+              </div>
+
+              </div>
+            </div>
+            </div>
+
+            <div id="posts22">
+            </div>
+            
+            `
+            var posty=document.getElementById("posts22")
+            for(var i=0;i<data.posts.length;i++)
+            {
+              posty.innerHTML=posty.innerHTML+
+              `
+              <div class="row mt-3">
+                <div class="col-12">
+                  <div class="card" style="min-height:100px">
+                  <div class="container" style="padding-top:10px;padding-left:10px;">
+                    <div class="row mb-1" >
+                     <div class="col-10 mt-2 ml-5">
+                     <b>`+data.use[i]+`</b><br><small>`+data.posts[i].date_posted+`<small>
+                     </div>
+                    </div>
+                    <div class="row mb-1" >
+                     <div class="col-12">
+                      <div class="container jumbotron"  style="width:100%;padding:20px;">
+                        <div class="">
+                          <h3>`+data.posts[i].title+`</h3><br>
+                          <p  style="font-size: 15px;">`+data.posts[i].description+`</p>
+                        </div>
+                      </div>
+                     
+                     </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              `
+            }
+                  // input tag of posts
+            document.getElementById("close").addEventListener("click", toggley);
+            document.getElementById("clicko").addEventListener("click", myinput);
+            function myinput(){
+              document.getElementById("clicko").className="container disappeared";
+              document.getElementById("formm").className="container";
+
+              function form_submit(event){
+              //console.log("hello")
+              event.preventDefault()
+              const myForm =event.target
+              const myFromData= new FormData(myForm)
+              const url="http://127.0.0.1:8000/posts/myClass/create"
+              const method=myForm.getAttribute("method")
+              //console.log(event)
+              const xhr=new XMLHttpRequest()
+              xhr.open(method,url)
+              xhr.onload=function(){
+                const serverResponse =xhr.response
+                //console.log(serverResponse)
+                secPosts(id);
+              }
+              xhr.send(myFromData)
+
+              }
+
+              const form_create=document.getElementById("create-post");
+              form_create.addEventListener("submit",form_submit);
+              
+            }
+            function toggley(){
+              document.getElementById("clicko").className="container";
+              document.getElementById("formm").className="container disappeared";
+              
+            }
+
+            
+
+
+            
+            }
+
+            $.get("http://127.0.0.1:8000/posts/myPostApi/"+id,cb);
+
+        }
+
+        function myposts(){
+            document.getElementById("sidebar").className="sidebar py-3 side25";
+            document.getElementById("class").className="sidebar-link text-muted"
+            document.getElementById("lecture").className="sidebar-link text-muted"
+            document.getElementById("quiz").className="sidebar-link text-muted"
+            document.getElementById("posts").className="sidebar-link text-muted active"
+            document.getElementById("handle_id").value = "post"; 
+
+            function cb(data){
+            console.log(data);
+            var p = document.getElementById("insert/delete");
+            p.innerHTML=""
+
+            str=""
+            if(data.flag=="True")
+            {
+              for(var i=0;i<data.sections.length;i++)
+              {
+                var sec=data.sections[i];
+                str=str+
+                `
+                <div class="col-lg-3 col-12 contain">
+                <div id="`+sec.id+`" class="card class_card" onclick="secPosts(this.id)">
+                  <div class="container contain ">
+                    <h4><b>`+sec.year+` `+sec.div+`</b></h4>
+                    <p>Beta</p>
+                  </div>
+                </div> 
+                </div>
+                `
+
+              }
+
+
+            }
+            else
+            {
+              str=
+              `
+              `
+
+            }
+
+
+            p.innerHTML=
+            `
+            <div class="row mt-5">
+            `+str+`
+            
+
+            </div>
+            `
+
+
+            
+            }
+
+            $.get("http://127.0.0.1:8000/posts/myClass",cb);
+
+        }
+
+
+        // ########################
+
+        window.onload = function(){
+        
+        var name = sessionStorage.getItem("handle");
+        console.log("handler "+name)
+        if(name=="post")
+        {
+          myposts();
+        } 
+        else if(name=="quiz")
+        {
+          myquiz();
+        }
+        else if(name=="class")
+        {
+          myclasses();
+        }
+        else 
+        {
+          mylecture();
+        }
+   
+
+      };
+
+
+      window.onbeforeunload=function(){
+        var str=document.getElementById("handle_id");
+
+        sessionStorage.setItem("handle",str.value);
+
+      }
+        
+
+
+    </script>
+
+
+
+    <!-- JavaScript files-->
+    <script src="{% static 'bubbly/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bubbly/vendor/popper.js/umd/popper.min.js' %}"> </script>
+    <script src="{% static 'bubbly/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bubbly/vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
+    <script src="{% static 'bubbly/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{% static 'bubbly/js/charts-home.js' %}"></script>
+    <script src="{% static 'bubbly/js/front.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gijgo/js/gijgo.min.js' %}"></script>
+    <script>
+        $('#id_roll_out_time').datetimepicker({ footer: true, modal: true , format: 'yyyy-mm-dd HH:MM '});
+ 		 $('#id_stop_time').datetimepicker({ footer: true, modal: true, format: 'yyyy-mm-dd HH:MM ' });
+    </script>
+    <style>
+        #id_description{
+          height:80px;
+        }
+      </style>
+      <script>
+        $(document).ready(function(){ 
+            $("#myTab a").click(function(e){
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+      </script>
+
+    
+	
+    
+   
+      
+	
+	
+	
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172723038-1"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-172723038-1');
+	</script>
+	
+
+	
+</body>
+</html>
