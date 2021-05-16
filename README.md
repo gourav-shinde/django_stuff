@@ -23,7 +23,7 @@ Latest added:
 Contributers: 
 - Gaurav Shinde(gauravsanjayshinde@gmail.com) : Backend Server,frontend,Rest API...everything
 
-##Web Functionality
+##Web Functionality:
 
 -Separate Login and Registration for Students and Teachers with email verification.
 -Tenants can create a Payment request to Houseowner by sending the snapshot of digital payment made.
