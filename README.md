@@ -25,12 +25,12 @@ Contributers:
 
 ## Web Functionality
 
--Separate Login and Registration for Students and Teachers with email verification.
--Tenants can create a Payment request to Houseowner by sending the snapshot of digital payment made.
--Create Classrooms and add Students.
--Attendance Monitoring with automatic defaulter warning.
--Conduct Quizzes Online and Evaluate Results.
--Chat Section.
+- Separate Login and Registration for Students and Teachers with email verification.
+- Tenants can create a Payment request to Houseowner by sending the snapshot of digital payment made.
+- Create Classrooms and add Students.
+- Attendance Monitoring with automatic defaulter warning.
+- Conduct Quizzes Online and Evaluate Results.
+- Chat Section.
 
 ## Additional Functionality
 - Email verification
